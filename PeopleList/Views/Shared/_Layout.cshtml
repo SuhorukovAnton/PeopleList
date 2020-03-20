@@ -10,7 +10,7 @@
 <body>
 
     <div class="container col-lg-3 mt-5">
-        @using (Ajax.BeginForm("Search", new AjaxOptions { UpdateTargetId = "result" }))
+        @using (Ajax.BeginForm("Add", new AjaxOptions { UpdateTargetId = "result" }))
         {
             <input class="form-control" type="text" name="name" placeholder="Имя" required/>
             <br>

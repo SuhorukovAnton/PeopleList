@@ -10,5 +10,7 @@ namespace PeopleList.Models
         public int id { set; get; }
         public string Name { set; get; }
         public string Surname { set; get; }
+        public string Email { set; get; }
+        public string Birthday { set; get; }
     }
 }

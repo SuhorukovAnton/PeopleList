@@ -6,6 +6,7 @@ using System.Web;
 
 namespace PeopleList.Models
 {
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class PeopleContext: DbContext
     {
         public DbSet<People> People { get; set; }
