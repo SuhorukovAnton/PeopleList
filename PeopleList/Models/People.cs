@@ -12,5 +12,6 @@ namespace PeopleList.Models
         public string Surname { set; get; }
         public string Email { set; get; }
         public string Birthday { set; get; }
+        public string Password { set; get; }
     }
 }

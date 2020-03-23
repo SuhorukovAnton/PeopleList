@@ -1,0 +1,28 @@
+﻿@model PeopleList.Models.People
+@{
+    Layout = null;
+    PeopleList.Models.People people = new PeopleList.Models.People();
+}
+
+@using (Ajax.BeginForm("Edit", new AjaxOptions { UpdateTargetId = "result" }))
+{
+    <input class="form-control" type="number" hidden="hidden" name="id" value="@Html.DisplayText("Id")" />
+    <input class="form-control" type="text" name="name" placeholder="Имя" required value="@Html.DisplayText("Name")" />
+    <br>
+    <input class="form-control" type="text" name="surname" placeholder="Фамилия" required value="@Html.DisplayText("Surname")" />
+    <br>
+    <input class="form-control" type="email" name="email" laceholder="Почта" value="@Html.DisplayText("Email")" />
+    <br>
+    <input class="form-control" type="date" name="birthday" placeholder="Дата рождения" value="@Html.DisplayText("Birthday")" />
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" id="Edit" type="submit">Изменить</button>
+    <br>
+}
+@using (Ajax.BeginForm("MainForm", new AjaxOptions { UpdateTargetId = "main-block" }))
+{
+    <button class="btn btn-lg btn-primary btn-block" id="Back" type="submit">Назад</button>
+}
+<h1 id="result"></h1>
+
+
+

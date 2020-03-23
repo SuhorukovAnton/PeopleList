@@ -176,3 +176,7 @@ C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\obj\Debug\Peopl
 C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\obj\Debug\PeopleList.csproj.CopyComplete
 C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\obj\Debug\PeopleList.dll
 C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\obj\Debug\PeopleList.pdb
+C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\bin\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\bin\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\bin\Microsoft.AspNetCore.Cryptography.Internal.xml
+C:\Users\Anton.Sukhorukov\Documents\GitHub\PeopleList\PeopleList\bin\Microsoft.AspNetCore.Cryptography.KeyDerivation.xml

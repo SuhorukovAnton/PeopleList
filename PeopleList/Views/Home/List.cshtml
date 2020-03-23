@@ -1,0 +1,23 @@
+﻿@model IEnumerable<PeopleList.Models.People>
+@{
+    Layout = null;
+}
+@foreach (PeopleList.Models.People b in Model)
+{
+    <li class="list-group-item" id="@b.id">
+        <span>
+            <span class="list-item-label">
+                @Ajax.ActionLink(b.Name + " " + b.Surname, "Read", new { id = b.id }, new AjaxOptions { UpdateTargetId = "main-block" })
+            </span>
+            <span class="float-xl-right">
+                @Ajax.ActionLink("Удалить", "Remove", new { id = b.id }, new AjaxOptions { UpdateTargetId = "result" })
+            </span>
+        </span>
+    </li>
+}
+
+
+
+
+
+
