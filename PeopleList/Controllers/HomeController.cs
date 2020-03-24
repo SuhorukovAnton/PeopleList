@@ -47,16 +47,39 @@ namespace PeopleList.Controllers
         public ActionResult Read(int id)
         {
 
-            return View(HelperConnect.GetPeople(id));
+            People people = HelperConnect.GetPeople(id);
+            if (people.Img != null)
+                return View("~/Views/Home/PeopleWithImg.cshtml", people);
+            else
+                return View("~/Views/Home/PeopleWithoutImg.cshtml", people);
         }
         public ActionResult Edit(int id, string email, string name, string surname, string birthday)
         {
             if (name != "" && surname != "" && email != "" && birthday != "")
             {
-                HelperConnect.EditPeople(id, name, surname, email, birthday.Replace('-', '.'));
+                String[] array = birthday.Split('-');
+                
+                HelperConnect.EditPeople(id, name, surname, email, birthday);
                 return View("~/Views/Home/EditGood.cshtml", HelperConnect.GetPeople(id));
             }
             return View("~/Views/Home/EditFalse.cshtml", HelperConnect.GetPeople(id));
+        }
+        [HttpPost]
+        public ActionResult LoadImg(HttpPostedFileBase img, int id)
+        {
+            if (img != null)
+            {
+                // получаем имя файла
+                string file = id + "." + System.IO.Path.GetFileName(img.FileName).Split('.')[1];
+                // сохраняем файл в папку Files в проекте
+                img.SaveAs(Server.MapPath("~/files/imgs/" + file));
+                HelperConnect.AddImg(id, file);
+            }
+            People people = HelperConnect.GetPeople(id);
+            if (people.Img != null)
+                return View("~/Views/Home/PeopleWithImg.cshtml", people);
+            else
+                return View("~/Views/Home/PeopleWithoutImg.cshtml", people);
         }
     }
 }

@@ -48,16 +48,18 @@ namespace PeopleList.Helpers
             using (PeopleContext db = new PeopleContext())
             {
                 People people = db.People.FirstOrDefault(p => p.id == id);
+                people.Birthday = people.Birthday.Split(' ')[0];
+                string[] tmp = people.Birthday.Split('.');
+                people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];
                 if (people != null)
                 {
-                    people.Birthday = people.Birthday.Replace('.', '-');
                     return people;
                 }
                 return null;
             }
         }
 
-        internal static void EditPeople(int id,string name, string surname, string email, string birthday)
+        public static void EditPeople(int id,string name, string surname, string email, string birthday)
         {
             using (PeopleContext db = new PeopleContext())
             {
@@ -68,6 +70,22 @@ namespace PeopleList.Helpers
                     people.Surname = surname;
                     people.Email = email;
                     people.Birthday = birthday;
+                    db.Entry(people).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+        }
+        public static void AddImg(int id, string file)
+        {
+            using (PeopleContext db = new PeopleContext())
+            {
+                People people = db.People.FirstOrDefault(p => p.id == id);
+                if (people != null)
+                {
+                    people.Birthday = people.Birthday.Split(' ')[0];
+                    string[] tmp = people.Birthday.Split('.');
+                    people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];
+                    people.Img = file;
                     db.Entry(people).State = EntityState.Modified;
                     db.SaveChanges();
                 }

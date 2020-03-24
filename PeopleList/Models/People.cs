@@ -13,5 +13,6 @@ namespace PeopleList.Models
         public string Email { set; get; }
         public string Birthday { set; get; }
         public string Password { set; get; }
+        public string Img { set; get; }
     }
 }

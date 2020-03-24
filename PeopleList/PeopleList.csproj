@@ -196,12 +196,15 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\List.cshtml" />
-    <Content Include="Views\Home\Read.cshtml" />
+    <Content Include="Views\Home\PeopleWithoutImg.cshtml" />
     <Content Include="Views\Home\EditGood.cshtml" />
     <Content Include="Views\Home\EditFalse.cshtml" />
     <Content Include="Views\Home\MainForm.cshtml" />
+    <Content Include="Views\Home\PeopleWithImg.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="files\imgs\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
