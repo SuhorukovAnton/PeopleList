@@ -1,0 +1,18 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Ajax.BeginForm("Auth", new AjaxOptions { UpdateTargetId = "main-block" }))
+{
+    <input class="form-control" type="email" name="email" placeholder="Почта" required />
+    <br>
+    <input class="form-control" type="password" name="password" placeholder="Пароль" required />
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">Авторизоваться</button>
+}
+
+
+
+
+
+

@@ -1,12 +1,8 @@
 ﻿using PeopleList.Helpers;
 using PeopleList.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace PeopleList.Controllers
 {
@@ -15,27 +11,46 @@ namespace PeopleList.Controllers
        
         public ActionResult Index()
         {
-            return View(HelperConnect.GetPeoples());
+            if (Session["userId"] == null)
+                return View("~/Views/Home/Auth.cshtml");
+            else
+            {
+                ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
+                return View(HelperConnect.GetPeoples());
+            }
         }
+        public ActionResult Auth(string email, string password)
+        {
+            if (password != null)
+            {
+                People people = HelperConnect.FindUser(email, HelperWorkWithData.GetHash(password));
+                if (people != null)
+                {
+                    Session["userId"] = people.id;
+                    ViewData["Layout"] = "";
+                    return View("~/Views/Home/Index.cshtml", HelperConnect.GetPeoples());
+                }
+                else
+                {
+                    ViewData["error"] = "Неверный логин или пароль";
+                    return View("~/Views/Home/AuthError.cshtml");
+                }
+            }
+            ViewData["error"] = "Неверный логин или пароль";
+            return View("~/Views/Home/AuthError.cshtml");
+        }
+
         public ActionResult MainForm()
         {
-            return View(HelperConnect.GetPeoples());
+            Session["PeopleId"] = null;
+            ViewData["Layout"] = "";
+            return View("~/Views/Home/Index.cshtml", HelperConnect.GetPeoples());
         }
         [HttpPost]
         public ActionResult Add(string email, string password, string name, string surname, string birthday)
         {
             if (name != "" && surname != "" && password != "" && email != "" && birthday != "")
-            {
-                byte[] salt = new byte[] { 3, 2, 1, 9, 17 };
-
-                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                    password: password,
-                    salt: salt,
-                    prf: KeyDerivationPrf.HMACSHA1,
-                    iterationCount: 10000,
-                    numBytesRequested: 256 / 8));
-                    HelperConnect.AddPeople(name, surname, hashed, email, birthday);
-            }
+                    HelperConnect.AddPeople(name, surname, HelperWorkWithData.GetHash(password), email, birthday);
             return View("~/Views/Home/List.cshtml", HelperConnect.GetPeoples());
         }
    
@@ -46,40 +61,32 @@ namespace PeopleList.Controllers
         }
         public ActionResult Read(int id)
         {
-
+            Session["PeopleId"] = id;
             People people = HelperConnect.GetPeople(id);
-            if (people.Img != null)
-                return View("~/Views/Home/PeopleWithImg.cshtml", people);
-            else
-                return View("~/Views/Home/PeopleWithoutImg.cshtml", people);
+            return View("~/Views/Home/People.cshtml", people);
         }
-        public ActionResult Edit(int id, string email, string name, string surname, string birthday)
+        public ActionResult Edit(string email, string name, string surname, string birthday)
         {
+            int id = (int)Session["PeopleId"];
             if (name != "" && surname != "" && email != "" && birthday != "")
-            {
-                String[] array = birthday.Split('-');
-                
+            {                
                 HelperConnect.EditPeople(id, name, surname, email, birthday);
-                return View("~/Views/Home/EditGood.cshtml", HelperConnect.GetPeople(id));
+                ViewData["Message"] = "Изменения успешно сохранены";
+                return View("~/Views/Home/EditMessage.cshtml", HelperConnect.GetPeople(id));
             }
-            return View("~/Views/Home/EditFalse.cshtml", HelperConnect.GetPeople(id));
+            ViewData["Message"] = "Заполнены не все данные";
+            return View("~/Views/Home/EditMessage.cshtml", HelperConnect.GetPeople(id));
         }
         [HttpPost]
-        public ActionResult LoadImg(HttpPostedFileBase img, int id)
+        public ActionResult LoadImg(HttpPostedFileBase img)
         {
+            int id = (int)Session["PeopleId"];
             if (img != null)
             {
-                // получаем имя файла
-                string file = id + "." + System.IO.Path.GetFileName(img.FileName).Split('.')[1];
-                // сохраняем файл в папку Files в проекте
-                img.SaveAs(Server.MapPath("~/files/imgs/" + file));
-                HelperConnect.AddImg(id, file);
+                HelperConnect.AddImg(id, HelperWorkWithData.SaveFile(img, id, Server));
             }
             People people = HelperConnect.GetPeople(id);
-            if (people.Img != null)
-                return View("~/Views/Home/PeopleWithImg.cshtml", people);
-            else
-                return View("~/Views/Home/PeopleWithoutImg.cshtml", people);
+            return View("~/Views/Home/People.cshtml", people);
         }
     }
 }

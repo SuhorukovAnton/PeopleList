@@ -1,6 +1,13 @@
 ﻿@model IEnumerable<PeopleList.Models.People>
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewData["Layout"].ToString() != "")
+    {
+        Layout = ViewData["Layout"].ToString();
+    }
+    else
+    {
+        Layout = null;
+    }
 }
 @using (Ajax.BeginForm("Add", new AjaxOptions { UpdateTargetId = "result" }))
 {

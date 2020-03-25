@@ -149,16 +149,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HelperWorkWithData.cs" />
     <Compile Include="Helpers\HelperConnect.cs" />
     <Compile Include="Models\People.cs" />
     <Compile Include="Models\PeopleContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\People.mdf" />
-    <Content Include="App_Data\People_log.ldf">
-      <DependentUpon>People.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -196,11 +193,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\List.cshtml" />
-    <Content Include="Views\Home\PeopleWithoutImg.cshtml" />
-    <Content Include="Views\Home\EditGood.cshtml" />
-    <Content Include="Views\Home\EditFalse.cshtml" />
-    <Content Include="Views\Home\MainForm.cshtml" />
-    <Content Include="Views\Home\PeopleWithImg.cshtml" />
+    <Content Include="Views\Home\EditMessage.cshtml" />
+    <Content Include="Views\Home\People.cshtml" />
+    <Content Include="Views\Home\Auth.cshtml" />
+    <Content Include="Views\Home\AuthError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="files\imgs\" />

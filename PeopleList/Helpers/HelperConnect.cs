@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using PeopleList.Models;
 
+
 namespace PeopleList.Helpers
 {
     public static class HelperConnect
@@ -36,6 +37,16 @@ namespace PeopleList.Helpers
                 }
             }
         }
+
+        public static People FindUser(string email, string password)
+        {
+            using (PeopleContext db = new PeopleContext())
+            {
+                People people = db.People.FirstOrDefault(p => p.Password == password && p.Email == email);
+                return people;
+            }
+        }
+
         public static List<People> GetPeoples()
         {
             using (PeopleContext db = new PeopleContext())
@@ -48,11 +59,12 @@ namespace PeopleList.Helpers
             using (PeopleContext db = new PeopleContext())
             {
                 People people = db.People.FirstOrDefault(p => p.id == id);
-                people.Birthday = people.Birthday.Split(' ')[0];
-                string[] tmp = people.Birthday.Split('.');
-                people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];
                 if (people != null)
                 {
+                    people.Birthday = people.Birthday.Split(' ')[0];
+                    string[] tmp = people.Birthday.Split('.');
+                    if(tmp.Length >= 3)
+                        people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];               
                     return people;
                 }
                 return null;
@@ -84,7 +96,8 @@ namespace PeopleList.Helpers
                 {
                     people.Birthday = people.Birthday.Split(' ')[0];
                     string[] tmp = people.Birthday.Split('.');
-                    people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];
+                    if (tmp.Length >= 3)
+                        people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];
                     people.Img = file;
                     db.Entry(people).State = EntityState.Modified;
                     db.SaveChanges();
