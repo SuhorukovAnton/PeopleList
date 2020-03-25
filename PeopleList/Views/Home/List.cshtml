@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<PeopleList.Models.People>
 @{
-    Layout = null;
+    Layout = ViewData["Layout"].ToString();
 }
 @foreach (PeopleList.Models.People b in Model)
 {
@@ -10,7 +10,10 @@
                 @Ajax.ActionLink(b.Name + " " + b.Surname, "Read", new { id = b.id }, new AjaxOptions { UpdateTargetId = "main-block" })
             </span>
             <span class="float-xl-right">
-                @Ajax.ActionLink("Удалить", "Remove", new { id = b.id }, new AjaxOptions { UpdateTargetId = "result" })
+                 @if(ViewData["hidden"].ToString()!= "true" )
+                 {
+                     Ajax.ActionLink("Удалить", "Remove", new { id = b.id }, new AjaxOptions { UpdateTargetId = "result" });
+                 }
             </span>
         </span>
     </li>

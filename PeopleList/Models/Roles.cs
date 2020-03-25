@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PeopleList.Models
 {
-    enum Roles
+    public enum Roles
     {
         User = 1,
         Admin = 2,

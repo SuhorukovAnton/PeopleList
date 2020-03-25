@@ -16,7 +16,15 @@ namespace PeopleList.Controllers
             else
             {
                 ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
-                return View(HelperConnect.GetPeoples());
+                if ((Roles)Session["role"] >= Roles.Admin)
+                {
+                    return View(HelperConnect.GetPeoples());
+                }
+                else
+                {
+                    ViewData["hidden"] = "true";
+                    return View("~/Views/Home/List.cshtml", HelperConnect.GetPeoples());
+                }
             }
         }
         public ActionResult Auth(string email, string password)
@@ -27,8 +35,18 @@ namespace PeopleList.Controllers
                 if (people != null)
                 {
                     Session["userId"] = people.id;
+                    Session["role"] = people.Role;
                     ViewData["Layout"] = "";
-                    return View("~/Views/Home/Index.cshtml", HelperConnect.GetPeoples());
+                    
+                    if ((Roles)Session["role"] >= Roles.Admin)
+                    {
+                        return View("~/Views/Home/Index.cshtml", HelperConnect.GetPeoples());
+                    }
+                    else
+                    {
+                        ViewData["hidden"] = "true";
+                        return View("~/Views/Home/List.cshtml", HelperConnect.GetPeoples());
+                    }
                 }
                 else
                 {
@@ -44,19 +62,29 @@ namespace PeopleList.Controllers
         {
             Session["PeopleId"] = null;
             ViewData["Layout"] = "";
-            return View("~/Views/Home/Index.cshtml", HelperConnect.GetPeoples());
+            if ((Roles)Session["role"] >= Roles.Admin)
+            {
+                return View("~/Views/Home/Index.cshtml", HelperConnect.GetPeoples());
+            }
+            else
+            {
+                ViewData["hidden"] = "true";
+                return View("~/Views/Home/List.cshtml", HelperConnect.GetPeoples());
+            }
         }
         [HttpPost]
         public ActionResult Add(string email, string password, string name, string surname, string birthday)
         {
             if (name != "" && surname != "" && password != "" && email != "" && birthday != "")
                     HelperConnect.AddPeople(name, surname, HelperWorkWithData.GetHash(password), email, birthday);
+            ViewData["Layout"] = "";
             return View("~/Views/Home/List.cshtml", HelperConnect.GetPeoples());
         }
    
         public ActionResult Remove(int id)
         {
             HelperConnect.RemovePeople(id);
+            ViewData["Layout"] = "";
             return View("~/Views/Home/List.cshtml", HelperConnect.GetPeoples());
         }
         public ActionResult Read(int id)
