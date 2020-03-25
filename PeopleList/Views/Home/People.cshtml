@@ -6,7 +6,7 @@
 
 @if (Html.DisplayText("Img").ToString() == "")
 {
-    using (Ajax.BeginForm("LoadImg", new AjaxOptions { UpdateTargetId = "result" }))
+    using (Ajax.BeginForm("LoadImg", null,new AjaxOptions { UpdateTargetId = "main-block" }, new { enctype = "multipart/form-data" }))
     {
         <div class="custom-file">
             <input type="file" class="custom-file-input" name="img" id="file" multiple accept="image/*" required>

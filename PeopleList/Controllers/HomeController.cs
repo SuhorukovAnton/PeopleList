@@ -77,7 +77,6 @@ namespace PeopleList.Controllers
             ViewData["Message"] = "Заполнены не все данные";
             return View("~/Views/Home/EditMessage.cshtml", HelperConnect.GetPeople(id));
         }
-        [HttpPost]
         public ActionResult LoadImg(HttpPostedFileBase img)
         {
             int id = (int)Session["PeopleId"];

@@ -153,6 +153,7 @@
     <Compile Include="Helpers\HelperConnect.cs" />
     <Compile Include="Models\People.cs" />
     <Compile Include="Models\PeopleContext.cs" />
+    <Compile Include="Models\Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
