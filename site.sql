@@ -25,15 +25,17 @@ CREATE TABLE IF NOT EXISTS `people` (
   `Birthday` date DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
   `Img` varchar(255) DEFAULT NULL,
+  `Role` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы site.people: ~3 rows (приблизительно)
 /*!40000 ALTER TABLE `people` DISABLE KEYS */;
-INSERT INTO `people` (`id`, `Name`, `Surname`, `Email`, `Birthday`, `Password`, `Img`) VALUES
-	(3, 'Мария', 'Нарюкова', 'masha16965@mail.ru', '1111-11-11', 'u1SR1JyZfP1JGmkpgKhf4dnNvxnISvwAlt5PHlspSqo=', '3.jpg'),
-	(5, 'Влад', 'Зуев', 'masha16966@mail.ru', '3221-03-12', 'dRDhgynk6c2x5+6jr4szEyKqI7sc48zyQaqPztD8Wng=', NULL),
-	(6, 'Антон', 'Сухоруков', 'suh-an@ya.ru', '1996-11-23', 'Pj/Ou/iPbNHsri4SXZX90X15u3MzZlK+jc6Yz6Za8QQ=', '6.png');
+INSERT INTO `people` (`id`, `Name`, `Surname`, `Email`, `Birthday`, `Password`, `Img`, `Role`) VALUES
+	(3, 'Мария', 'Нарюкова', 'masha16965@mail.ru', '1111-11-11', 'u1SR1JyZfP1JGmkpgKhf4dnNvxnISvwAlt5PHlspSqo=', '3.jpg', 1),
+	(5, 'Влад', 'Зуев', 'masha16966@mail.ru', '3221-03-12', 'dRDhgynk6c2x5+6jr4szEyKqI7sc48zyQaqPztD8Wng=', NULL, 2),
+	(6, 'Антон', 'Сухоруков', 'suh-an@ya.ru', '1996-11-23', 'Pj/Ou/iPbNHsri4SXZX90X15u3MzZlK+jc6Yz6Za8QQ=', '6.png', 3),
+	(7, 'Александр', 'Ололоев', 'ololo@ra.ri', '1983-07-15', 'lCWmx8UPwtQMWtYbdVUxhXBY3+94i6sA1vWaNQIzDPE=', NULL, 1);
 /*!40000 ALTER TABLE `people` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
