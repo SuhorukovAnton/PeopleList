@@ -18,19 +18,22 @@ USE `site`;
 
 -- Дамп структуры для таблица site.people
 CREATE TABLE IF NOT EXISTS `people` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) DEFAULT NULL,
   `Surname` varchar(45) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `Birthday` date DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
+  `Img` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы site.people: ~1 rows (приблизительно)
+-- Дамп данных таблицы site.people: ~3 rows (приблизительно)
 /*!40000 ALTER TABLE `people` DISABLE KEYS */;
-INSERT INTO `people` (`id`, `Name`, `Surname`, `Email`, `Birthday`, `Password`) VALUES
-	(0, 'Антон', 'Сухоруков', 'suhorukovAnton@yandex.ru', '1996-11-23', 'e+wNouYmx73JVmaWdTLBRh4qqayyj8Fo1mLWTIr/d+U=');
+INSERT INTO `people` (`id`, `Name`, `Surname`, `Email`, `Birthday`, `Password`, `Img`) VALUES
+	(3, 'Мария', 'Нарюкова', 'masha16965@mail.ru', '1111-11-11', 'u1SR1JyZfP1JGmkpgKhf4dnNvxnISvwAlt5PHlspSqo=', '3.jpg'),
+	(5, 'Влад', 'Зуев', 'masha16966@mail.ru', '3221-03-12', 'dRDhgynk6c2x5+6jr4szEyKqI7sc48zyQaqPztD8Wng=', NULL),
+	(6, 'Антон', 'Сухоруков', 'suh-an@ya.ru', '1996-11-23', 'Pj/Ou/iPbNHsri4SXZX90X15u3MzZlK+jc6Yz6Za8QQ=', '6.png');
 /*!40000 ALTER TABLE `people` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
