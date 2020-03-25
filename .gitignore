@@ -1,4 +1,3 @@
-/.packages/
-/.bin/
-/.Debug/
-/..vs/
+/packages
+/.vs
+/PeopleList/bin
