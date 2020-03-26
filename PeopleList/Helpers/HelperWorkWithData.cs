@@ -28,5 +28,10 @@ namespace PeopleList.Helpers
             img.SaveAs(Server.MapPath("~/files/imgs/" + file));
             return file;
         }
+        public static void StartSession(HttpSessionStateBase Session, int id, Roles role)
+        {
+            Session["userId"] = id;
+            Session["role"] = role;
+        }
     }
 }

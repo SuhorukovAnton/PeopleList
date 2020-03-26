@@ -9,12 +9,12 @@
             <span class="list-item-label">
                 @Ajax.ActionLink(b.Name + " " + b.Surname, "Read", new { id = b.id }, new AjaxOptions { UpdateTargetId = "main-block" })
             </span>
-            <span class="float-xl-right">
-                 @if(ViewData["hidden"].ToString()!= "true" )
-                 {
-                     Ajax.ActionLink("Удалить", "Remove", new { id = b.id }, new AjaxOptions { UpdateTargetId = "result" });
-                 }
-            </span>
+            @if (ViewData["hidden"] == null)
+            {
+                <span class="float-xl-right">
+                    @Ajax.ActionLink("Удалить", "Remove", new { id = b.id }, new AjaxOptions { UpdateTargetId = "result" })
+                </span>
+            }
         </span>
     </li>
 }
