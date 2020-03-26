@@ -11,16 +11,10 @@ namespace PeopleList.Helpers
 {
     public static class HelperConnect
     {
-        public static void AddPeople(string name, string surname, string password, string email, string birthday)
+        public static void AddPeople(People people)
         {
             using (PeopleContext db = new PeopleContext())
             {
-                People people = new People();
-                people.Name = name;
-                people.Surname = surname;
-                people.Email = email;
-                people.Birthday = birthday;
-                people.Password = password;
                 db.People.Add(people);
                 db.SaveChanges();
             }
@@ -44,6 +38,15 @@ namespace PeopleList.Helpers
             {
                 People people = db.People.FirstOrDefault(p => p.Password == password && p.Email == email);
                 return people;
+            }
+        }
+
+        public static bool FindEmail(string email)
+        {
+            using (PeopleContext db = new PeopleContext())
+            {
+                People people = db.People.FirstOrDefault(p => p.Email == email);
+                return people != null;
             }
         }
 
@@ -71,18 +74,18 @@ namespace PeopleList.Helpers
             }
         }
 
-        public static void EditPeople(int id,string name, string surname, string email, string birthday)
+        public static void EditPeople(People people)
         {
             using (PeopleContext db = new PeopleContext())
             {
-                People people = db.People.FirstOrDefault(p => p.id == id);
+                People peopleLast = db.People.FirstOrDefault(p => p.id == people.id);
                 if (people != null)
                 {
-                    people.Name = name;
-                    people.Surname = surname;
-                    people.Email = email;
-                    people.Birthday = birthday;
-                    db.Entry(people).State = EntityState.Modified;
+                    peopleLast.Name = people.Name;
+                    peopleLast.Surname = people.Surname;
+                    peopleLast.Email = people.Email;
+                    peopleLast.Birthday = people.Birthday;
+                    db.Entry(peopleLast).State = EntityState.Modified;
                     db.SaveChanges();
                 }
             }

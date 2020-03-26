@@ -6,7 +6,7 @@
 
 @if (Html.DisplayText("Img").ToString() == "")
 {
-    if (ViewData["canEdit"].ToString() == "true")
+    if (ViewData["canEdit"].ToString() == "True")
     {
         using (Ajax.BeginForm("LoadImg", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { enctype = "multipart/form-data" }))
         {
@@ -25,7 +25,7 @@ else
 {
     <img src="~/files/imgs/@Html.DisplayText("Img")" width="200" height="200" class="rounded mx-auto d-block" alt="...">
 }
-@if (ViewData["canEdit"].ToString() == "true")
+@if (ViewData["canEdit"].ToString() == "True")
 {
     using (Ajax.BeginForm("Edit", new AjaxOptions { UpdateTargetId = "result" }))
     {
