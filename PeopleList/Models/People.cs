@@ -1,6 +1,6 @@
-﻿using PeopleList.Helpers;
-using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+
+using PeopleList.Helpers;
 
 namespace PeopleList.Models
 {
@@ -17,18 +17,18 @@ namespace PeopleList.Models
 
         public bool CheckEdit()
         {
-            return Name !="" && Surname !="" && Email!="" && Birthday!="" && IsValidEmail();
+            return Name != "" && Surname != "" && Email != "" && Birthday != "" && IsValidEmail();
         }
 
         public bool CheckAdd()
         {
-            return Name != "" && Surname != "" && Password != "" && Email != "" && Birthday != "" && IsValidEmail() && IsValidPassword() && !HelperConnect.FindEmail(Email);
+            return CheckEdit() && IsValidPassword() && !HelperConnect.FindEmail(Email);
         }
 
         public bool IsValidEmail()
         {
-            string pattern = "[.\\-_a-z0-9]+@([a-z0-9][\\-a-z0-9]+\\.)+[a-z]{2,6}";
-            Match isMatch = Regex.Match(Email.ToLower(), pattern, RegexOptions.IgnoreCase);
+            var pattern = "[.\\-_a-z0-9]+@([a-z0-9][\\-a-z0-9]+\\.)+[a-z]{2,6}";
+            var isMatch = Regex.Match(Email.ToLower(), pattern, RegexOptions.IgnoreCase);
             return isMatch.Success;
         }
 
@@ -38,27 +38,27 @@ namespace PeopleList.Models
             {
                 return false;
             }
-            bool isLower = false;
-            bool isUpper = false;
-            bool isDigit = false;
-            bool isPunctuation = false;
-            bool isWhiteSpace = false;
-            foreach (char c in Password)
+            var isLower = false;
+            var isUpper = false;
+            var isDigit = false;
+            var isPunctuation = false;
+            var isWhiteSpace = false;
+            foreach (var c in Password)
             {
-                isLower = Char.IsLetter(c) && Char.IsLower(c) || isLower;
-                isUpper = Char.IsLetter(c) && Char.IsUpper(c) || isUpper;
-                isDigit = Char.IsDigit(c) || isDigit;
-                isPunctuation = Char.IsPunctuation(c) || isPunctuation;
-                isWhiteSpace = Char.IsWhiteSpace(c) || isWhiteSpace;
+                isLower = char.IsLetter(c) && char.IsLower(c) || isLower;
+                isUpper = char.IsLetter(c) && char.IsUpper(c) || isUpper;
+                isDigit = char.IsDigit(c) || isDigit;
+                isPunctuation = char.IsPunctuation(c) || isPunctuation;
+                isWhiteSpace = char.IsWhiteSpace(c) || isWhiteSpace;
             }
             return isLower && isUpper && isDigit && isPunctuation && !isWhiteSpace;
         }
 
         static bool ContainsUpperLetter(string pass)
         {
-            foreach (char c in pass)
+            foreach (var c in pass)
             {
-                if ((Char.IsLetter(c)) && (Char.IsUpper(c)))
+                if ((char.IsLetter(c)) && (char.IsUpper(c)))
                     return true;
             }
             return false;
@@ -66,9 +66,9 @@ namespace PeopleList.Models
 
         static bool ContainsDigit(string pass)
         {
-            foreach (char c in pass)
+            foreach (var c in pass)
             {
-                if (Char.IsDigit(c))
+                if (char.IsDigit(c))
                     return true;
             }
             return false;
@@ -76,9 +76,9 @@ namespace PeopleList.Models
 
         static bool ContainsPunctuation(string pass)
         {
-            foreach (char c in pass)
+            foreach (var c in pass)
             {
-                if (Char.IsPunctuation(c))
+                if (char.IsPunctuation(c))
                     return true;
             }
             return false;
@@ -86,9 +86,9 @@ namespace PeopleList.Models
 
         static bool ContainsSeparator(string pass)
         {
-            foreach (char c in pass)
+            foreach (var c in pass)
             {
-                if (Char.IsSeparator(c))
+                if (char.IsSeparator(c))
                     return true;
             }
             return false;
