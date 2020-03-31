@@ -1,10 +1,10 @@
-﻿@model PeopleList.Models.People
+﻿@model PeopleList.Models.FormEdit
 @{
     Layout = null;
     PeopleList.Models.People people = new PeopleList.Models.People();
 }
 
-@if (Html.DisplayText("Img").ToString() == "")
+@if (ViewData["Img"] == null)
 {
     if (ViewData["canEdit"].ToString() == "True")
     {
@@ -27,17 +27,28 @@ else
 }
 @if (ViewData["canEdit"].ToString() == "True")
 {
-    using (Ajax.BeginForm("Edit", new AjaxOptions { UpdateTargetId = "result" }))
+    using (Ajax.BeginForm("Edit", new AjaxOptions { UpdateTargetId = "main-block" }))
     {
-        <br>
-        <input class="form-control" type="text" name="name" placeholder="Имя" required value="@Html.DisplayText("Name")" />
-        <br>
-        <input class="form-control" type="text" name="surname" placeholder="Фамилия" required value="@Html.DisplayText("Surname")" />
-        <br>
-        <input class="form-control" type="email" name="email" placeholder="Почта" required value="@Html.DisplayText("Email")" />
-        <br>
-        <input class="form-control" type="date" name="birthday" required placeholder="Дата рождения" value="@Html.DisplayText("Birthday")" />
-        <br>
+        <div class="form-group">
+            <span class="control-label col-md-2"> Почта</span>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2"> Имя</span>
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2"> Фамилия</span>
+            @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2"> День рождения</span>
+            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+        </div>
         <button class="btn btn-lg btn-primary btn-block" id="Edit" type="submit">Изменить</button>
         <br>
     }
@@ -58,7 +69,12 @@ else
     <button class="btn btn-lg btn-primary btn-block" id="Back" type="submit">Назад</button>
 }
 <br>
-<span id="result"></span>
-
+<span id="result"> @Html.ValidationSummary(true, "", new { @class = "text-danger" })</span>
+@if (ViewData["Message"]!= null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewData["Message"]
+    </div>
+}
 
 

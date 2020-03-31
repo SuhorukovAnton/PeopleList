@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<PeopleList.Models.People>
 @{
-    Layout = ViewData["Layout"].ToString();
+
+        Layout = null;
+
 }
+
 @foreach (PeopleList.Models.People b in Model)
 {
     <li class="list-group-item" id="@b.id">

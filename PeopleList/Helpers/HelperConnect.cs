@@ -9,8 +9,9 @@ namespace PeopleList.Helpers
 {
     public static class HelperConnect
     {
-        public static void AddPeople(People people)
+        public static void AddPeople(FormAdd formAdd)
         {
+            People people = new People() { Name = formAdd.Name, Surname = formAdd.Surname, Email = formAdd.Email, Password = formAdd.Password, Birthday = formAdd.Birthday, Role = Roles.User };
             using (var db = new PeopleContext())
             {
                 db.People.Add(people);
@@ -72,18 +73,18 @@ namespace PeopleList.Helpers
             }
         }
 
-        public static void EditPeople(People people)
+        public static void EditPeople(int id,FormEdit formEdit)
         {
             using (var db = new PeopleContext())
             {
-                var peopleLast = db.People.FirstOrDefault(p => p.id == people.id);
+                var people = db.People.FirstOrDefault(p => p.id == id);
                 if (people != null)
                 {
-                    peopleLast.Name = people.Name;
-                    peopleLast.Surname = people.Surname;
-                    peopleLast.Email = people.Email;
-                    peopleLast.Birthday = people.Birthday;
-                    db.Entry(peopleLast).State = EntityState.Modified;
+                    people.Name = formEdit.Name;
+                    people.Surname = formEdit.Surname;
+                    people.Email = formEdit.Email;
+                    people.Birthday = formEdit.Birthday;
+                    db.Entry(people).State = EntityState.Modified;
                     db.SaveChanges();
                 }
             }
