@@ -11,7 +11,7 @@ namespace PeopleList.Helpers
     {
         public static void AddPeople(FormAdd formAdd)
         {
-            People people = new People() { Name = formAdd.Name, Surname = formAdd.Surname, Email = formAdd.Email, Password = formAdd.Password, Birthday = formAdd.Birthday, Role = Roles.User };
+            var people = new People() { Name = formAdd.Name, Surname = formAdd.Surname, Email = formAdd.Email, Password = formAdd.Password, Birthday = formAdd.Birthday, Role = Roles.User };
             using (var db = new PeopleContext())
             {
                 db.People.Add(people);
@@ -73,11 +73,11 @@ namespace PeopleList.Helpers
             }
         }
 
-        public static void EditPeople(int id,FormEdit formEdit)
+        public static void EditPeople(FormEdit formEdit)
         {
             using (var db = new PeopleContext())
             {
-                var people = db.People.FirstOrDefault(p => p.id == id);
+                var people = db.People.FirstOrDefault(p => p.id == formEdit.Id);
                 if (people != null)
                 {
                     people.Name = formEdit.Name;

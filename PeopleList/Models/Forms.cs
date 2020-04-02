@@ -1,10 +1,7 @@
-﻿using PeopleList.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-using System.Web;
+
+using PeopleList.Helpers;
 
 namespace PeopleList.Models
 {
@@ -17,9 +14,6 @@ namespace PeopleList.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [ValidPassword(ErrorMessage = "Пароль должен содержать малый и заглавный символ, цифру и знак пунктуации")]
-        [MinLength(8)]
-        [MaxLength(20)]
         public string Password { get; set; }
     }
 
@@ -42,21 +36,26 @@ namespace PeopleList.Models
         [MinLength(8)]
         [MaxLength(20)]
         [ValidPassword(ErrorMessage = "Пароль должен содержать малый и заглавный символ, цифру и знак пунктуации")]
-       
+
         public string Password { set; get; }
 
-        
+
     }
     public class FormEdit
     {
+        public int Id { get; set; }
+
         [Required]
         public string Name { set; get; }
+
         [Required]
         public string Surname { set; get; }
+
         [DataType(DataType.EmailAddress)]
         [ValidEmail(ErrorMessage = "Неверный формат почты")]
         [Required]
         public string Email { set; get; }
+
         [Required]
         [DataType(DataType.Date)]
         public string Birthday { set; get; }
@@ -67,7 +66,7 @@ namespace PeopleList.Models
     {
         public override bool IsValid(object value)
         {
-            string pass = value as string;
+            var pass = value as string;
             var isLower = false;
             var isUpper = false;
             var isDigit = false;
@@ -89,7 +88,7 @@ namespace PeopleList.Models
     {
         public override bool IsValid(object value)
         {
-            string email = value as string;
+            var email = value as string;
             var pattern = "[.\\-_a-z0-9]+@([a-z0-9][\\-a-z0-9]+\\.)+[a-z]{2,6}";
             var isMatch = Regex.Match(email.ToLower(), pattern, RegexOptions.IgnoreCase);
             return isMatch.Success;
@@ -100,7 +99,7 @@ namespace PeopleList.Models
     {
         public override bool IsValid(object value)
         {
-            string email = value as string;
+            var email = value as string;
             return !HelperConnect.FindEmail(email);
         }
     }

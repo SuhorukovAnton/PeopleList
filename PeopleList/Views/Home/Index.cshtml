@@ -10,7 +10,7 @@
     }
 }
 
-@if (ViewData["hiddenAdd"].ToString() != "true")
+@if (!(bool)ViewData["hiddenAdd"])
 {
     <div id="formAdd">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

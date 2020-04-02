@@ -1,8 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-using PeopleList.Helpers;
-
-namespace PeopleList.Models
+﻿namespace PeopleList.Models
 {
     public class People
     {

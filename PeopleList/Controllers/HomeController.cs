@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+
 using PeopleList.Helpers;
 using PeopleList.Models;
 
@@ -9,7 +10,7 @@ namespace PeopleList.Controllers
     public class HomeController : Controller
     {
 
-       
+
         public ActionResult Index()
         {
             Session["PeopleId"] = null;
@@ -46,77 +47,71 @@ namespace PeopleList.Controllers
 
         public ActionResult Read(int id)
         {
-            Session["PeopleId"] = id;
-            ViewData["canEdit"] = (id == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin")).ToString();
+            ViewData["canEdit"] = (id == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin"));
             return View("~/Views/Home/People.cshtml", GetFormEdit(id));
         }
 
-        public ActionResult Edit(FormEdit formEdit)
+        public ActionResult Edit(int id, FormEdit formEdit)
         {
-            
-            if (Session["PeopleId"] != null && int.TryParse(Session["PeopleId"].ToString(), out var tmp))
+            ViewData["canEdit"] = id == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin");
+            ViewData["Img"] = HelperConnect.GetPeople(id).Img;
+
+            var isFind = HelperConnect.FindEmail(formEdit.Email) && HelperConnect.GetPeople(id).Email != formEdit.Email;
+
+            if (isFind)
             {
-                ViewData["canEdit"] = (tmp == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin")).ToString();
-                ViewData["Img"] =HelperConnect.GetPeople(tmp).Img;
-                bool isFind = HelperConnect.FindEmail(formEdit.Email) && HelperConnect.GetPeople(tmp).Email != formEdit.Email;
-                if (ModelState.IsValid && !isFind)
-                {
-                    HelperConnect.EditPeople(tmp, formEdit);
-                    ViewData["Message"] = "Изменения успешно сохранены";
-                }
-                else
-                {
-                    if (isFind)
-                    {
-                        ModelState.AddModelError("Email", "Пользователь с таким логином уже в системе");
-                    }
-                }
+                ModelState.AddModelError("Email", "Пользователь с таким логином уже в системе");
             }
-            else
+            else if (ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Неверный id");
+                HelperConnect.EditPeople(formEdit);
+                ViewData["Message"] = "Изменения успешно сохранены";
             }
-        return View("~/Views/Home/People.cshtml", formEdit);
+
+            return View("~/Views/Home/People.cshtml", formEdit);
         }
 
-        public ActionResult LoadImg(HttpPostedFileBase img)
+        public ActionResult LoadImg(int id, HttpPostedFileBase img)
         {
-            if (img != null && int.TryParse(Session["PeopleId"].ToString(), out var tmp))
+            if (img != null)
             {
-                HelperConnect.AddImg(tmp, HelperWorkWithData.SaveFile(img, tmp, Server));
-               
-                ViewData["canEdit"] = "True";
-                return View("~/Views/Home/People.cshtml", GetFormEdit(tmp));
+                HelperConnect.AddImg(id, HelperWorkWithData.SaveFile(img, id, Server));
+
+                ViewData["canEdit"] = true;
+                return View("~/Views/Home/People.cshtml", GetFormEdit(id));
             }
+
             return RedirectToAction("MainForm", "Home");
         }
 
         private ActionResult GetView(FormAdd formAdd)
         {
-            if (User.IsInRole("Admin"))
-            {
-                ViewData["hiddenAdd"] = "false";
-                return View("~/Views/Home/Index.cshtml", formAdd);
-            }
-            else
-            {
-                ViewData["hiddenAdd"] = "true";
-                return View("~/Views/Home/Index.cshtml", formAdd);
-            }
+            ViewData["hiddenAdd"] = !User.IsInRole("Admin");
+            return View("~/Views/Home/Index.cshtml", formAdd);
         }
+
         public ActionResult List()
         {
             if (!User.IsInRole("SuperAdmin"))
             {
-                ViewData["hidden"] = "true";
+                ViewData["hidden"] = true;
             }
             return View(HelperConnect.GetPeoples());
         }
+
         private FormEdit GetFormEdit(int id)
         {
-            People people = HelperConnect.GetPeople(id);
+            var people = HelperConnect.GetPeople(id);
             ViewData["Img"] = people.Img;
-            return new FormEdit() { Name = people.Name, Surname = people.Surname, Birthday = people.Birthday, Email = people.Email };
+
+            return new FormEdit
+            {
+                Id = id,
+                Name = people.Name,
+                Surname = people.Surname,
+                Birthday = people.Birthday,
+                Email = people.Email
+            };
         }
     }
 }

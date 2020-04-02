@@ -6,9 +6,9 @@
 
 @if (ViewData["Img"] == null)
 {
-    if (ViewData["canEdit"].ToString() == "True")
+    if ((bool)ViewData["canEdit"])
     {
-        using (Ajax.BeginForm("LoadImg", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { enctype = "multipart/form-data" }))
+        using (Ajax.BeginForm("LoadImg", new { id = Model.Id }, new AjaxOptions { UpdateTargetId = "main-block" }, new { enctype = "multipart/form-data" }))
         {
             <div class="custom-file">
                 <input type="file" class="custom-file-input" name="img" id="file" multiple accept="image/*" required>
@@ -25,9 +25,9 @@ else
 {
     <img src="~/files/imgs/@Html.DisplayText("Img")" width="200" height="200" class="rounded mx-auto d-block" alt="...">
 }
-@if (ViewData["canEdit"].ToString() == "True")
+@if ((bool)ViewData["canEdit"])
 {
-    using (Ajax.BeginForm("Edit", new AjaxOptions { UpdateTargetId = "main-block" }))
+    using (Ajax.BeginForm("Edit", new { id = Model.Id }, new AjaxOptions { UpdateTargetId = "main-block" }))
     {
         <div class="form-group">
             <span class="control-label col-md-2"> Почта</span>

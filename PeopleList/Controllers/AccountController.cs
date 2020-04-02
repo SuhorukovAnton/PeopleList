@@ -1,7 +1,8 @@
-﻿using PeopleList.Helpers;
-using PeopleList.Models;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
+
+using PeopleList.Helpers;
+using PeopleList.Models;
 
 namespace PeopleList.Controllers
 {
@@ -27,9 +28,10 @@ namespace PeopleList.Controllers
             }
             return View(form);
         }
+
         public ActionResult Auth()
         {
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
