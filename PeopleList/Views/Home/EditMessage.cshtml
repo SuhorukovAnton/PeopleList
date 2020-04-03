@@ -3,14 +3,6 @@
     Layout = null;
     
 }
-@if(ViewData["Message"].ToString() == "Изменения успешно сохранены")
-{
-    <div class="alert alert-success" role="alert">
-        @ViewData["Message"]
-    </div>
-}
-else {
-    <div class="alert alert-danger" role="alert">
-        @ViewData["Message"]
-    </div>
-}
+<div class="alert alert-success" role="alert">
+    @ViewData["Message"]
+</div>

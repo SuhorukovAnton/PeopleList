@@ -17,36 +17,36 @@
         @using (Ajax.BeginForm("Add", new AjaxOptions { UpdateTargetId = "main-block" }))
         {
         <div class="form-group">
-            <span class="control-label col-md-2"> Почта</span>
+            <span class="control-label col-md-2">@Resources.Resource.Email</span>
             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <span class="control-label col-md-2"> Пароль</span>
+            <span class="control-label col-md-2">@Resources.Resource.Password</span>
             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <span class="control-label col-md-2"> Имя</span>
+            <span class="control-label col-md-2">@Resources.Resource.Name</span>
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <span class="control-label col-md-2"> Фамилия</span>
+            <span class="control-label col-md-2">@Resources.Resource.Surname</span>
             @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <span class="control-label col-md-2"> День рождения</span>
+            <span class="control-label col-md-2">@Resources.Resource.Birthday</span>
             @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
         </div>
-        <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">Добавить</button>
+        <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Add</button>
         <br>
         }
     </div>
 }
-<h3>Список добавленных людей</h3>
+<h3>@Resources.Resource.PeopleList</h3>
 
 <ol class="list list-group" id="result">
     @{

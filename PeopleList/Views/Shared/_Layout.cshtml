@@ -4,15 +4,38 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/Content/Site.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
+    <div class="row justify-content-between">
+        <div class="col-lg-1">
+            @using (Html.BeginForm("ChangeCulture", "Home"))
+            {
+                <br>
+                <select name="lang" class="col-12 form-control" id="exampleFormControlSelect1">
+                    <option value="ru">Русский</option>
+                    <option value="en">English</option>
+                </select>
+                <br>
+                <input class="col-12 btn btn-primary" type="submit" name="submit" value="@Resources.Resource.Change">
+            }
+        </div>
+        @if (ViewData["Auth"] == null)
+        {
+    <div class="col-lg-1">
+        <br>
+        <br>
+        @using (Html.BeginForm("Logoff", "Home"))
+        {
+            <input class="col-12 btn btn-primary" type="submit" name="submit" value="@Resources.Resource.Logoff">
+        }
+    </div>
+        }
+    </div>
     <div class="container col-lg-3 mt-5" id="main-block">
          @RenderBody()
     </div>

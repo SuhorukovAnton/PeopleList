@@ -15,7 +15,7 @@
             @if (ViewData["hidden"] == null)
             {
                 <span class="float-xl-right">
-                    @Ajax.ActionLink("Удалить", "Remove", new { id = b.id }, new AjaxOptions { UpdateTargetId = "result" })
+                    @Ajax.ActionLink(Resources.Resource.Remove, "Remove", new { id = b.id }, new AjaxOptions { UpdateTargetId = "result" })
                 </span>
             }
         </span>

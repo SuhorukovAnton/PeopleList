@@ -1,18 +1,25 @@
-﻿using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Security;
+using PeopleList.Filters;
 using PeopleList.Helpers;
 using PeopleList.Models;
 
 namespace PeopleList.Controllers
 {
     [Authorize]
+    [Culture]
     public class HomeController : Controller
     {
-
-
+        [AllowAnonymous]
         public ActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("AuthWithLayout", "Account");
+            }
             Session["PeopleId"] = null;
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
             return GetView(null);
@@ -60,12 +67,12 @@ namespace PeopleList.Controllers
 
             if (isFind)
             {
-                ModelState.AddModelError("Email", "Пользователь с таким логином уже в системе");
+                ModelState.AddModelError("Email", Resources.Resource.EmailIsBusy);
             }
             else if (ModelState.IsValid)
             {
                 HelperConnect.EditPeople(formEdit);
-                ViewData["Message"] = "Изменения успешно сохранены";
+                ViewData["Message"] = Resources.Resource.SaveIsSuccessfully;
             }
 
             return View("~/Views/Home/People.cshtml", formEdit);
@@ -112,6 +119,36 @@ namespace PeopleList.Controllers
                 Birthday = people.Birthday,
                 Email = people.Email
             };
+        }
+        [AllowAnonymous]
+        public ActionResult ChangeCulture(string lang)
+        {
+            string returnUrl = Request.UrlReferrer.AbsolutePath;
+            // Список культур
+            List<string> cultures = new List<string>() { "ru", "en" };
+            if (!cultures.Contains(lang))
+            {
+                lang = "ru";
+            }
+            HttpCookie cookie = Request.Cookies["lang"];
+            if (cookie != null)
+                cookie.Value = lang;  
+            else
+            {
+
+                cookie = new HttpCookie("lang");
+                cookie.HttpOnly = false;
+                cookie.Value = lang;
+                cookie.Expires = DateTime.Now.AddYears(1);
+            }
+            Response.Cookies.Add(cookie);
+            return Redirect(returnUrl);
+        }
+
+        public ActionResult Logoff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
