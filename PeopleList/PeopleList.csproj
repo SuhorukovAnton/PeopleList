@@ -357,6 +357,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Account\Auth.cshtml" />
+    <Content Include="Views\Home\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="files\imgs\" />

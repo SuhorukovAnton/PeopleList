@@ -23,7 +23,6 @@ namespace PeopleList.Filters
             else
                 cultureName = "ru";
 
-            // Список культур
             List<string> cultures = new List<string>() { "ru", "en" };
             if (!cultures.Contains(cultureName))
             {

@@ -79,15 +79,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Назад.
-        /// </summary>
-        public static string Back {
-            get {
-                return ResourceManager.GetString("Back", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на День рождения.
         /// </summary>
         public static string Birthday {
@@ -111,6 +102,15 @@ namespace Resources {
         public static string BirthdayValid {
             get {
                 return ResourceManager.GetString("BirthdayValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Назад.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -187,6 +187,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Русский.
+        /// </summary>
+        public static string Lang {
+            get {
+                return ResourceManager.GetString("Lang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Выйти.
         /// </summary>
         public static string Logoff {
@@ -210,6 +219,15 @@ namespace Resources {
         public static string NameRequired {
             get {
                 return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Нет.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
@@ -268,6 +286,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Профиль.
+        /// </summary>
+        public static string Profile {
+            get {
+                return ResourceManager.GetString("Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Удалить.
         /// </summary>
         public static string Remove {
@@ -277,11 +304,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Сохранить.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Изменения успешно сохранены.
         /// </summary>
         public static string SaveIsSuccessfully {
             get {
                 return ResourceManager.GetString("SaveIsSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Уверены что хотите удалить?.
+        /// </summary>
+        public static string SureDelete {
+            get {
+                return ResourceManager.GetString("SureDelete", resourceCulture);
             }
         }
         
@@ -309,6 +354,15 @@ namespace Resources {
         public static string UserIsNotFound {
             get {
                 return ResourceManager.GetString("UserIsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Да.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

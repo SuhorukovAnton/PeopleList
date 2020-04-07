@@ -123,9 +123,6 @@
   <data name="Auth" xml:space="preserve">
     <value>Авторизоваться</value>
   </data>
-  <data name="Back" xml:space="preserve">
-    <value>Назад</value>
-  </data>
   <data name="Birthday" xml:space="preserve">
     <value>День рождения</value>
   </data>
@@ -134,6 +131,9 @@
   </data>
   <data name="BirthdayValid" xml:space="preserve">
     <value>Дата рождения должна быть меньше текущей</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Назад</value>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Изменить</value>
@@ -159,6 +159,9 @@
   <data name="EmailValid" xml:space="preserve">
     <value>Неверный формат почты</value>
   </data>
+  <data name="Lang" xml:space="preserve">
+    <value>Русский</value>
+  </data>
   <data name="Logoff" xml:space="preserve">
     <value>Выйти</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Введите имя</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
@@ -186,11 +192,20 @@
   <data name="PeopleList" xml:space="preserve">
     <value>Список добавленных людей</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
   <data name="SaveIsSuccessfully" xml:space="preserve">
     <value>Изменения успешно сохранены</value>
+  </data>
+  <data name="SureDelete" xml:space="preserve">
+    <value>Уверены что хотите удалить?</value>
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Фамилия</value>
@@ -200,5 +215,8 @@
   </data>
   <data name="UserIsNotFound" xml:space="preserve">
     <value>Пользователя с таким логином и паролем нет</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
   </data>
 </root>

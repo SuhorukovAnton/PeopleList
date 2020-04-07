@@ -123,9 +123,6 @@
   <data name="Auth" xml:space="preserve">
     <value>Log in</value>
   </data>
-  <data name="Back" xml:space="preserve">
-    <value>Back</value>
-  </data>
   <data name="Birthday" xml:space="preserve">
     <value>Birthday</value>
   </data>
@@ -134,6 +131,9 @@
   </data>
   <data name="BirthdayValid" xml:space="preserve">
     <value>Birthday must be less than current</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Back</value>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
@@ -159,6 +159,9 @@
   <data name="EmailValid" xml:space="preserve">
     <value>Invalid email format</value>
   </data>
+  <data name="Lang" xml:space="preserve">
+    <value>English</value>
+  </data>
   <data name="Logoff" xml:space="preserve">
     <value>Log off</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Enter name</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
@@ -186,11 +192,20 @@
   <data name="PeopleList" xml:space="preserve">
     <value>People List</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
   <data name="Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Delete</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="SaveIsSuccessfully" xml:space="preserve">
     <value>Save is successfully</value>
+  </data>
+  <data name="SureDelete" xml:space="preserve">
+    <value>Are you sure you want to delete?</value>
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Surname</value>
@@ -200,5 +215,8 @@
   </data>
   <data name="UserIsNotFound" xml:space="preserve">
     <value>User is not found</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

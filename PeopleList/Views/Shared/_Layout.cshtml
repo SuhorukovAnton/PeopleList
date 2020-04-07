@@ -17,8 +17,23 @@
             {
                 <br>
                 <select name="lang" class="col-12 form-control" id="exampleFormControlSelect1">
-                    <option value="ru">Русский</option>
-                    <option value="en">English</option>
+                    @if (Resources.Resource.Lang == "Русский")
+                    {
+                        <option selected value="ru">Русский</option>
+                    }
+                    else
+                    {
+                        <option value="ru">Русский</option>
+                    }
+                    @if (Resources.Resource.Lang == "English")
+                    {
+                        <option selected value="en">English</option>
+                    }
+                    else
+                    {
+                        <option value="en">English</option>
+                    }
+
                 </select>
                 <br>
                 <input class="col-12 btn btn-primary" type="submit" name="submit" value="@Resources.Resource.Change">
@@ -26,23 +41,33 @@
         </div>
         @if (ViewData["Auth"] == null)
         {
-    <div class="col-lg-1">
-        <br>
-        <br>
-        @using (Html.BeginForm("Logoff", "Home"))
-        {
-            <input class="col-12 btn btn-primary" type="submit" name="submit" value="@Resources.Resource.Logoff">
+            <div class="col-lg-1">
+                <br>
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @ViewData["Email"]
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @Ajax.ActionLink(Resources.Resource.Profile, "Read", "Home", new { @id = User.Identity.Name }, new AjaxOptions { UpdateTargetId = "main-block" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink(Resources.Resource.Logoff, "Logoff",null, new { @class = "dropdown-item" })
+                    </div>
+                </div>
+            </div>
         }
-    </div>
-        }
-    </div>
-    <div class="container col-lg-3 mt-5" id="main-block">
-         @RenderBody()
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    
+    <div class="container col-lg-3 mt-5" id="main-block">
+        @RenderBody()
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
+
 </body>
+   
 </html>

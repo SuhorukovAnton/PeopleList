@@ -49,8 +49,14 @@ else
             @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
         </div>
-        <button class="btn btn-lg btn-primary btn-block" id="Edit" type="submit">@Resources.Resource.Edit</button>
+        <button type="button" class="btn btn-lg btn-danger btn-block" data-toggle="modal" data-target="#exampleModal">
+            @Resources.Resource.Remove
+        </button>
         <br>
+        <div class="d-flex justify-content-around">
+            <button class="col-5 btn btn-lg btn-primary " id="Edit" type="submit">@Resources.Resource.Save</button>
+            @Ajax.ActionLink(Resources.Resource.Cancel, "MainForm", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { @class = "col-5 btn-lg btn btn-secondary " })
+        </div>
     }
 }
 else
@@ -63,18 +69,33 @@ else
         <li class="list-group-item">@Html.DisplayText("Birthday")</li>
     </ul>
     <br>
+    @Ajax.ActionLink(Resources.Resource.Cancel, "MainForm", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { @class = "btn-lg btn btn-secondary btn-block" })
 }
-@using (Ajax.BeginForm("MainForm", new AjaxOptions { UpdateTargetId = "main-block" }))
-{
-    <button class="btn btn-lg btn-primary btn-block" id="Back" type="submit">@Resources.Resource.Back</button>
-}
+
 <br>
 <span id="result"> @Html.ValidationSummary(true, "", new { @class = "text-danger" })</span>
-@if (ViewData["Message"]!= null)
+@if (ViewData["Message"] != null)
 {
     <div class="alert alert-success" role="alert">
         @ViewData["Message"]
     </div>
 }
-
-
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@Resources.Resource.Remove</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 @Resources.Resource.SureDelete
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Resources.Resource.No</button>           
+                @Html.ActionLink(Resources.Resource.Yes, "Remove", new { @id  = Model.Id}, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+</div>

@@ -16,40 +16,50 @@ namespace PeopleList.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("AuthWithLayout", "Account");
             }
+            ViewData["Email"] = HelperConnect.GetPeople(int.Parse(User.Identity.Name)).Email;
             Session["PeopleId"] = null;
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
-            return GetView(null);
+            return GetView();
         }
         public ActionResult MainForm()
         {
             Session["PeopleId"] = null;
             ViewData["Layout"] = "";
-            return GetView(null);
+            return GetView();
         }
 
-        [HttpPost]
         [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult OpenAdd()
+        {
+            ViewData["Layout"] = "";
+            return View("~/Views/Home/Add.cshtml");
+        }
+        
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
         public ActionResult Add(FormAdd formAdd)
         {
             if (ModelState.IsValid)
             {
                 formAdd.Password = HelperWorkWithData.GetHash(formAdd.Password);
                 HelperConnect.AddPeople(formAdd);
+                return RedirectToAction("MainForm", "Home");
             }
             ViewData["Layout"] = "";
-            return GetView(formAdd);
+            return View(formAdd);
         }
-
+        
         [Authorize(Roles = "SuperAdmin")]
         public ActionResult Remove(int id)
         {
             HelperConnect.RemovePeople(id);
-            ViewData["Layout"] = "";
-            return View("~/Views/Home/List.cshtml", HelperConnect.GetPeoples());
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Read(int id)
@@ -91,10 +101,10 @@ namespace PeopleList.Controllers
             return RedirectToAction("MainForm", "Home");
         }
 
-        private ActionResult GetView(FormAdd formAdd)
+        private ActionResult GetView()
         {
             ViewData["hiddenAdd"] = !User.IsInRole("Admin");
-            return View("~/Views/Home/Index.cshtml", formAdd);
+            return View("~/Views/Home/Index.cshtml");
         }
 
         public ActionResult List()
@@ -124,7 +134,6 @@ namespace PeopleList.Controllers
         public ActionResult ChangeCulture(string lang)
         {
             string returnUrl = Request.UrlReferrer.AbsolutePath;
-            // Список культур
             List<string> cultures = new List<string>() { "ru", "en" };
             if (!cultures.Contains(lang))
             {

@@ -101,9 +101,16 @@ namespace PeopleList.Models
             {
                 return false;
             }
-            var convertedDate = Convert.ToDateTime(value);
-            var nowDate = DateTime.Now;
-            return convertedDate < nowDate;
+            try
+            {
+                var convertedDate = Convert.ToDateTime(value);
+                var nowDate = DateTime.Now;
+                return convertedDate < nowDate;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 
