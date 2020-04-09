@@ -349,6 +349,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Выгрузить.
+        /// </summary>
+        public static string Unload {
+            get {
+                return ResourceManager.GetString("Unload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Пользователя с таким логином и паролем нет.
         /// </summary>
         public static string UserIsNotFound {

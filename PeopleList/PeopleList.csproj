@@ -360,6 +360,7 @@
     <Content Include="Views\Home\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="files\download\" />
     <Folder Include="files\imgs\" />
   </ItemGroup>
   <ItemGroup>

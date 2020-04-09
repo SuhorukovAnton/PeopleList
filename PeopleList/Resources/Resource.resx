@@ -213,6 +213,9 @@
   <data name="SurnameRequired" xml:space="preserve">
     <value>Введите фамилию</value>
   </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Выгрузить</value>
+  </data>
   <data name="UserIsNotFound" xml:space="preserve">
     <value>Пользователя с таким логином и паролем нет</value>
   </data>

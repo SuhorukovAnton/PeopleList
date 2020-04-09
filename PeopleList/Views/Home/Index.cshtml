@@ -20,6 +20,16 @@
 {
     <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Add</button>
 }
+<br>
+@using (Html.BeginForm("UnloadPeoplesXML", "Home"))
+{
+    <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Unload XML</button>
+}
+<br>
+@using (Html.BeginForm("UnloadPeoplesJSON", "Home"))
+{
+    <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Unload JSON</button>
+}
 
 
 

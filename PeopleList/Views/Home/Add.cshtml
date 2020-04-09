@@ -4,37 +4,49 @@
     Layout = null;
 }
 
-    <div id="formAdd">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @using (Ajax.BeginForm("Add", new AjaxOptions { UpdateTargetId = "main-block" }))
-        {
-            <div class="form-group">
-                <span class="control-label col-md-2">@Resources.Resource.Email</span>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                <span class="control-label col-md-2">@Resources.Resource.Password</span>
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                <span class="control-label col-md-2">@Resources.Resource.Name</span>
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                <span class="control-label col-md-2">@Resources.Resource.Surname</span>
-                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                <span class="control-label col-md-2">@Resources.Resource.Birthday</span>
-                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Add</button>
-            <br>
-            @Ajax.ActionLink(Resources.Resource.Cancel, "MainForm", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { @class = " btn-lg btn btn-secondary btn-block" })
-        }
+<div id="formAdd">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @using (Ajax.BeginForm("Add", new AjaxOptions { UpdateTargetId = "main-block" }))
+    {
+        <div class="form-group">
+            <span class="control-label col-md-2">@Resources.Resource.Email</span>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">@Resources.Resource.Password</span>
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">@Resources.Resource.Name</span>
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">@Resources.Resource.Surname</span>
+            @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">@Resources.Resource.Birthday</span>
+            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Add</button>
+        <br>
+        @Ajax.ActionLink(Resources.Resource.Cancel, "MainForm", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { @class = " btn-lg btn btn-secondary btn-block" })
+    }
+</div>
+<br>
+@using (Ajax.BeginForm("LoadXmlOrJSON", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { enctype = "multipart/form-data" }))
+{
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" name="file" id="file" required>
+        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+        <div class="invalid-feedback">Example invalid custom file feedback</div>
     </div>
+    <br>
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Download</button>
+}

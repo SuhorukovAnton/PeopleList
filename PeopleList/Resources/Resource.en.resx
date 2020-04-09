@@ -213,6 +213,9 @@
   <data name="SurnameRequired" xml:space="preserve">
     <value>Enter surname</value>
   </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Unload</value>
+  </data>
   <data name="UserIsNotFound" xml:space="preserve">
     <value>User is not found</value>
   </data>

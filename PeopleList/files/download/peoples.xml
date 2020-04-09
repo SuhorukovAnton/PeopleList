@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Peoples>
+  <People>
+    <Name>Ан1тон</Name>
+    <Surname>Сухоруков</Surname>
+    <Email>suh-a2n@ya.ru</Email>
+    <Birthday>23.11.1996 0:00:00</Birthday>
+    <Password>lmiEInvtjsQ4XQ6v9bP25A5DMuv3L8cnqQEj+kmc0k4=</Password>
+    <Role>3</Role>
+  </People>
+  <People>
+    <Name>Пе3тя</Name>
+    <Surname>Человек</Surname>
+    <Email>Use4r@User.ru</Email>
+    <Birthday>23.11.1996 0:00:00</Birthday>
+    <Password>YqXvYdDaVjBzEXPakKZBQFlqJ6PeRezVWcdtBxsu2lY=</Password>
+    <Role>1</Role>
+  </People>
+</Peoples>

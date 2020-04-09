@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Xml;
 using PeopleList.Filters;
 using PeopleList.Helpers;
 using PeopleList.Models;
@@ -92,10 +93,27 @@ namespace PeopleList.Controllers
         {
             if (img != null)
             {
-                HelperConnect.AddImg(id, HelperWorkWithData.SaveFile(img, id, Server));
+                HelperConnect.AddImg(id, HelperWorkWithData.SaveImg(img, id, Server));
 
                 ViewData["canEdit"] = true;
                 return View("~/Views/Home/People.cshtml", GetFormEdit(id));
+            }
+
+            return RedirectToAction("MainForm", "Home");
+        }
+        public ActionResult LoadXmlOrJSON(HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                string path = HelperWorkWithData.SaveFile(file, "peoples", Server);
+                if (path.EndsWith(".xml"))
+                {
+                     HelperWorkWithData.AddPeopleXml(path);
+                }
+                else
+                {
+                    HelperWorkWithData.AddPeopleJSON(path);
+                }
             }
 
             return RedirectToAction("MainForm", "Home");
@@ -158,6 +176,16 @@ namespace PeopleList.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+        public void UnloadPeoplesXML()
+        {
+            HelperWorkWithData.CreateXML(Server);
+            HelperWorkWithData.UnloadXML(Response, Server);
+        }
+        public void UnloadPeoplesJSON()
+        {
+            HelperWorkWithData.CreateJSON(Server);
+            HelperWorkWithData.UnloadJSON(Response, Server);
         }
     }
 }

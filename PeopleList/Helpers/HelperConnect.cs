@@ -18,6 +18,21 @@ namespace PeopleList.Helpers
                 db.SaveChanges();
             }
         }
+        public static void AddPeople(People people)
+        {
+            try
+            {
+                using (var db = new PeopleContext())
+                {
+                    db.People.Add(people);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+
+            }
+        }
         public static void RemovePeople(int id)
         {
             using (var db = new PeopleContext())
@@ -96,12 +111,7 @@ namespace PeopleList.Helpers
                 var people = db.People.FirstOrDefault(p => p.id == id);
                 if (people != null)
                 {
-                    people.Birthday = people.Birthday.Split(' ')[0];
-                    var tmp = people.Birthday.Split('.');
-                    if (tmp.Length >= 3)
-                    {
-                        people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];
-                    }
+                    people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
                     people.Img = file;
                     db.Entry(people).State = EntityState.Modified;
                     db.SaveChanges();
