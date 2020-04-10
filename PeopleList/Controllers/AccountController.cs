@@ -13,7 +13,8 @@ namespace PeopleList.Controllers
         {
             if (ModelState.IsValid)
             {
-                var people = HelperConnect.FindUser(form.Email, form.Password);
+                var task = HelperConnect.FindUser(form.Email, form.Password);
+                var people = task.Result;
                 if (people != null)
                 {
                     FormsAuthentication.SetAuthCookie(people.id.ToString(), true);

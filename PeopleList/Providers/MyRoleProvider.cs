@@ -35,8 +35,9 @@ namespace PeopleList.Providers
 
         public override string[] GetRolesForUser(string id)
         {
-            var people = HelperConnect.GetPeople(int.Parse(id));
-           if(people.Role == Models.Roles.SuperAdmin)
+            var task = HelperConnect.GetPeople(int.Parse(id));
+            var people = task.Result;
+            if (people.Role == Models.Roles.SuperAdmin)
             {
                 return new string[] { people.Role.ToString(), "Admin" };
             }
@@ -53,8 +54,8 @@ namespace PeopleList.Providers
 
         public override bool IsUserInRole(string id, string roleName)
         {
-            var people = HelperConnect.GetPeople(int.Parse(id));
-
+            var task = HelperConnect.GetPeople(int.Parse(id));
+            var people = task.Result;
             if (people != null && (people.Role.ToString() == roleName || people.Role == Models.Roles.SuperAdmin && roleName == "Admin"))
             {
                 return true;

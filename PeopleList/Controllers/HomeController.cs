@@ -22,7 +22,7 @@ namespace PeopleList.Controllers
             {
                 return RedirectToAction("AuthWithLayout", "Account");
             }
-            ViewData["Email"] = HelperConnect.GetPeople(int.Parse(User.Identity.Name)).Email;
+            ViewData["Email"] = HelperConnect.GetPeople(int.Parse(User.Identity.Name)).Result.Email;
             Session["PeopleId"] = null;
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
             return GetView();
@@ -72,9 +72,9 @@ namespace PeopleList.Controllers
         public ActionResult Edit(int id, FormEdit formEdit)
         {
             ViewData["canEdit"] = id == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin");
-            ViewData["Img"] = HelperConnect.GetPeople(id).Img;
+            ViewData["Img"] = HelperConnect.GetPeople(id).Result.Img;
 
-            var isFind = HelperConnect.FindEmail(formEdit.Email) && HelperConnect.GetPeople(id).Email != formEdit.Email;
+            var isFind = HelperConnect.FindEmail(formEdit.Email).Result && HelperConnect.GetPeople(id).Result.Email != formEdit.Email;
 
             if (isFind)
             {
@@ -136,7 +136,8 @@ namespace PeopleList.Controllers
 
         private FormEdit GetFormEdit(int id)
         {
-            var people = HelperConnect.GetPeople(id);
+            var task = HelperConnect.GetPeople(id);
+            var people = task.Result;
             ViewData["Img"] = people.Img;
 
             return new FormEdit

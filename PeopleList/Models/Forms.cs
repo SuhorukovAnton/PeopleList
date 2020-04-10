@@ -138,7 +138,7 @@ namespace PeopleList.Models
             {
                 return false;
             }
-            return !HelperConnect.FindEmail(email);
+            return !HelperConnect.FindEmail(email).Result;
         }
     }
 }

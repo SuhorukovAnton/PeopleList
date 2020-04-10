@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-
+using System.Threading.Tasks;
 using PeopleList.Models;
 
 
@@ -9,23 +9,15 @@ namespace PeopleList.Helpers
 {
     public static class HelperConnect
     {
-        public static void AddPeople(FormAdd formAdd)
+        public async static void AddPeople(FormAdd formAdd)
         {
             var people = new People() { Name = formAdd.Name, Surname = formAdd.Surname, Email = formAdd.Email, Password = formAdd.Password, Birthday = formAdd.Birthday, Role = Roles.User };
-            using (var db = new PeopleContext())
-            {
-                db.People.Add(people);
-                db.SaveChanges();
-            }
-        }
-        public static void AddPeople(People people)
-        {
             try
             {
                 using (var db = new PeopleContext())
                 {
                     db.People.Add(people);
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
             }
             catch
@@ -33,7 +25,22 @@ namespace PeopleList.Helpers
 
             }
         }
-        public static void RemovePeople(int id)
+        public async static void AddPeople(People people)
+        {
+            try
+            {
+                using (var db = new PeopleContext())
+                {
+                    db.People.Add(people);
+                    await db.SaveChangesAsync();
+                }
+            }
+            catch
+            {
+
+            }
+        }
+        public async static void RemovePeople(int id)
         {
             using (var db = new PeopleContext())
             {
@@ -41,25 +48,25 @@ namespace PeopleList.Helpers
                 if (people != null)
                 {
                     db.People.Remove(people);
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
             }
         }
 
-        public static People FindUser(string email, string password)
+        public async static Task<People> FindUser(string email, string password)
         {
             var passwordHash = HelperWorkWithData.GetHash(password);
             using (var db = new PeopleContext())
             {
-                return db.People.FirstOrDefault(p => p.Password == passwordHash && p.Email == email);
+                return await db.People.FirstOrDefaultAsync(p => p.Password == passwordHash && p.Email == email);
             }
         }
 
-        public static bool FindEmail(string email)
+        public async static Task<bool> FindEmail(string email)
         {
             using (var db = new PeopleContext())
             {
-                var people = db.People.FirstOrDefault(p => p.Email == email);
+                var people = await db.People.FirstOrDefaultAsync(p => p.Email == email);
                 return people != null;
             }
         }
@@ -71,11 +78,11 @@ namespace PeopleList.Helpers
                 return new List<People>(db.People);
             }
         }
-        public static People GetPeople(int id)
+        public async static Task<People> GetPeople(int id)
         {
             using (var db = new PeopleContext())
             {
-                var people = db.People.FirstOrDefault(p => p.id == id);
+                var people = await db.People.FirstOrDefaultAsync(p => p.id == id);
                 if (people != null)
                 {
                     people.Birthday = people.Birthday.Split(' ')[0];
@@ -88,11 +95,11 @@ namespace PeopleList.Helpers
             }
         }
 
-        public static void EditPeople(FormEdit formEdit)
+        public async static void EditPeople(FormEdit formEdit)
         {
             using (var db = new PeopleContext())
             {
-                var people = db.People.FirstOrDefault(p => p.id == formEdit.Id);
+                var people = await db.People.FirstOrDefaultAsync(p => p.id == formEdit.Id);
                 if (people != null)
                 {
                     people.Name = formEdit.Name;
@@ -100,21 +107,21 @@ namespace PeopleList.Helpers
                     people.Email = formEdit.Email;
                     people.Birthday = formEdit.Birthday;
                     db.Entry(people).State = EntityState.Modified;
-                    db.SaveChanges();
+                   await db.SaveChangesAsync();
                 }
             }
         }
-        public static void AddImg(int id, string file)
+        public async static void AddImg(int id, string file)
         {
             using (var db = new PeopleContext())
             {
-                var people = db.People.FirstOrDefault(p => p.id == id);
+                var people = await db.People.FirstOrDefaultAsync(p => p.id == id);
                 if (people != null)
                 {
                     people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
                     people.Img = file;
                     db.Entry(people).State = EntityState.Modified;
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
             }
         }

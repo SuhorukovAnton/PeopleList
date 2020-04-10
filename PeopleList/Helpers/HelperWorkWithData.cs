@@ -32,7 +32,7 @@ namespace PeopleList.Helpers
 
         public static string SaveImg(HttpPostedFileBase img, int id, HttpServerUtilityBase Server)
         {
-            var file = id + "." + System.IO.Path.GetFileName(img.FileName).Split('.')[1];
+            var file = id + "." + Path.GetFileName(img.FileName).Split('.')[1];
             img.SaveAs(Server.MapPath("~/files/imgs/" + file));
             return file;
         }
@@ -47,13 +47,11 @@ namespace PeopleList.Helpers
             List<People> peoples = HelperConnect.GetPeoples();
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
-            settings.Async = true;
             using (XmlWriter writer = XmlWriter.Create(Server.MapPath("~/files/peoples.xml"), settings))
             {
                 writer.WriteStartElement("Peoples");
                 peoples.ForEach((people) =>
                 {
-
                     writer.WriteStartElement("People");
                     people.WriteXml(writer);
                     writer.WriteEndElement();
@@ -105,7 +103,7 @@ namespace PeopleList.Helpers
             return peoples;
         }
 
-        internal static void AddPeopleJSON(string path)
+        public static void AddPeopleJSON(string path)
         {
             string text = "";
             using (StreamReader sr = new StreamReader(path, Encoding.Default))
@@ -140,7 +138,7 @@ namespace PeopleList.Helpers
             }
         }
 
-        internal static void UnloadJSON(HttpResponseBase Response, HttpServerUtilityBase Server)
+        public static void UnloadJSON(HttpResponseBase Response, HttpServerUtilityBase Server)
         {
             Response.ContentType = "application/json";
             Response.AppendHeader("Content-Disposition", "attachment; filename=peoples.json");
