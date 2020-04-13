@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Xml;
+using NLog;
+using PeopleList.Core;
 using PeopleList.Filters;
 using PeopleList.Helpers;
 using PeopleList.Models;
@@ -14,15 +17,19 @@ namespace PeopleList.Controllers
     [Culture]
     public class HomeController : Controller
     {
+        PeopleJSONReader JSONReader = new PeopleJSONReader();
+        PeopleXmlReader XmlReader = new PeopleXmlReader();
+       
+
         [AllowAnonymous]
-        public ActionResult Index()
-        {
-            
+        public async Task<ActionResult> Index()
+        {         
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("AuthWithLayout", "Account");
             }
-            ViewData["Email"] = HelperConnect.GetPeople(int.Parse(User.Identity.Name)).Result.Email;
+            var people = await HelperConnect.GetPeople(int.Parse(User.Identity.Name));
+            ViewData["Email"] = people.Email;
             Session["PeopleId"] = null;
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
             return GetView();
@@ -44,12 +51,12 @@ namespace PeopleList.Controllers
         
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Add(FormAdd formAdd)
+        public async Task<ActionResult> Add(FormAdd formAdd)
         {
             if (ModelState.IsValid)
             {
                 formAdd.Password = HelperWorkWithData.GetHash(formAdd.Password);
-                HelperConnect.AddPeople(formAdd);
+                await HelperConnect.AddPeople(formAdd);
                 return RedirectToAction("MainForm", "Home");
             }
             ViewData["Layout"] = "";
@@ -57,19 +64,19 @@ namespace PeopleList.Controllers
         }
         
         [Authorize(Roles = "SuperAdmin")]
-        public ActionResult Remove(int id)
+        public async Task<ActionResult> Remove(int id)
         {
-            HelperConnect.RemovePeople(id);
+            await HelperConnect.RemovePeople(id);
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Read(int id)
+        public async Task<ActionResult> Read(int id)
         {
             ViewData["canEdit"] = (id == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin"));
-            return View("~/Views/Home/People.cshtml", GetFormEdit(id));
+            return View("~/Views/Home/People.cshtml", await GetFormEdit(id));
         }
 
-        public ActionResult Edit(int id, FormEdit formEdit)
+        public async Task<ActionResult> Edit(int id, FormEdit formEdit)
         {
             ViewData["canEdit"] = id == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin");
             ViewData["Img"] = HelperConnect.GetPeople(id).Result.Img;
@@ -82,18 +89,18 @@ namespace PeopleList.Controllers
             }
             else if (ModelState.IsValid)
             {
-                HelperConnect.EditPeople(formEdit);
+               await HelperConnect.EditPeople(formEdit);
                 ViewData["Message"] = Resources.Resource.SaveIsSuccessfully;
             }
 
             return View("~/Views/Home/People.cshtml", formEdit);
         }
 
-        public ActionResult LoadImg(int id, HttpPostedFileBase img)
+        public async Task<ActionResult> LoadImg(int id, HttpPostedFileBase img)
         {
             if (img != null)
             {
-                HelperConnect.AddImg(id, HelperWorkWithData.SaveImg(img, id, Server));
+                await HelperConnect.AddImg(id, HelperWorkWithData.SaveImg(img, id, Server));
 
                 ViewData["canEdit"] = true;
                 return View("~/Views/Home/People.cshtml", GetFormEdit(id));
@@ -101,18 +108,18 @@ namespace PeopleList.Controllers
 
             return RedirectToAction("MainForm", "Home");
         }
-        public ActionResult LoadXmlOrJSON(HttpPostedFileBase file)
+        public async Task<ActionResult> LoadXmlOrJSON(HttpPostedFileBase file)
         {
             if (file != null)
             {
                 string path = HelperWorkWithData.SaveFile(file, "peoples", Server);
                 if (path.EndsWith(".xml"))
                 {
-                     HelperWorkWithData.AddPeopleXml(path);
+                   await XmlReader.AddPeople(path);
                 }
                 else
                 {
-                    HelperWorkWithData.AddPeopleJSON(path);
+                    await JSONReader.AddPeople(path);
                 }
             }
 
@@ -134,10 +141,9 @@ namespace PeopleList.Controllers
             return View(HelperConnect.GetPeoples());
         }
 
-        private FormEdit GetFormEdit(int id)
+        private async Task<FormEdit> GetFormEdit(int id)
         {
-            var task = HelperConnect.GetPeople(id);
-            var people = task.Result;
+            var people = await HelperConnect.GetPeople(id);
             ViewData["Img"] = people.Img;
 
             return new FormEdit
@@ -163,7 +169,6 @@ namespace PeopleList.Controllers
                 cookie.Value = lang;  
             else
             {
-
                 cookie = new HttpCookie("lang");
                 cookie.HttpOnly = false;
                 cookie.Value = lang;
@@ -180,13 +185,13 @@ namespace PeopleList.Controllers
         }
         public void UnloadPeoplesXML()
         {
-            HelperWorkWithData.CreateXML(Server);
-            HelperWorkWithData.UnloadXML(Response, Server);
+            XmlReader.Create(Server);
+            XmlReader.Unload(Response, Server);
         }
         public void UnloadPeoplesJSON()
         {
-            HelperWorkWithData.CreateJSON(Server);
-            HelperWorkWithData.UnloadJSON(Response, Server);
+            JSONReader.Create(Server);
+            JSONReader.Unload(Response, Server);
         }
     }
 }

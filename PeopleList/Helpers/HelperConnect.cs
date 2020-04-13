@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using NLog;
 using PeopleList.Models;
 
 
@@ -9,7 +11,9 @@ namespace PeopleList.Helpers
 {
     public static class HelperConnect
     {
-        public async static void AddPeople(FormAdd formAdd)
+        public static Logger logger = LogManager.GetCurrentClassLogger();
+
+        public async static Task AddPeople(FormAdd formAdd)
         {
             var people = new People() { Name = formAdd.Name, Surname = formAdd.Surname, Email = formAdd.Email, Password = formAdd.Password, Birthday = formAdd.Birthday, Role = Roles.User };
             try
@@ -20,27 +24,31 @@ namespace PeopleList.Helpers
                     await db.SaveChangesAsync();
                 }
             }
-            catch
+            catch(Exception e)
             {
-
+                logger.Info("Wrong person format: " +  e.Message);
             }
         }
-        public async static void AddPeople(People people)
+        public async static Task AddPeople(People people)
         {
             try
             {
                 using (var db = new PeopleContext())
                 {
+                    if (people.Password == null)
+                    {
+                        people.Password = HelperWorkWithData.GetHash("123");
+                    }
                     db.People.Add(people);
                     await db.SaveChangesAsync();
                 }
             }
-            catch
+            catch (Exception e)
             {
-
+                logger.Info("Wrong person format: " + e.Message);
             }
         }
-        public async static void RemovePeople(int id)
+        public async static Task RemovePeople(int id)
         {
             using (var db = new PeopleContext())
             {
@@ -95,7 +103,7 @@ namespace PeopleList.Helpers
             }
         }
 
-        public async static void EditPeople(FormEdit formEdit)
+        public async static Task EditPeople(FormEdit formEdit)
         {
             using (var db = new PeopleContext())
             {
@@ -111,7 +119,7 @@ namespace PeopleList.Helpers
                 }
             }
         }
-        public async static void AddImg(int id, string file)
+        public async static Task AddImg(int id, string file)
         {
             using (var db = new PeopleContext())
             {
