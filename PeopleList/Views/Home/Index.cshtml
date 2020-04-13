@@ -21,12 +21,12 @@
     <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Add</button>
 }
 <br>
-@using (Html.BeginForm("UnloadPeoplesXML", "Home"))
+@using (Html.BeginForm("UnloadPeoples", "Home", new { format = "xml" }))
 {
     <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Unload XML</button>
 }
 <br>
-@using (Html.BeginForm("UnloadPeoplesJSON", "Home"))
+@using (Html.BeginForm("UnloadPeoples", "Home", new { format = "json" }))
 {
     <button class="btn btn-lg btn-primary btn-block" id="Add" type="submit">@Resources.Resource.Unload JSON</button>
 }

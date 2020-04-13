@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 
 namespace PeopleList.Filters
@@ -17,13 +15,13 @@ namespace PeopleList.Filters
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             string cultureName;
-            HttpCookie cultureCookie = filterContext.HttpContext.Request.Cookies["lang"];
+            var cultureCookie = filterContext.HttpContext.Request.Cookies["lang"];
             if (cultureCookie != null)
                 cultureName = cultureCookie.Value;
             else
                 cultureName = "ru";
 
-            List<string> cultures = new List<string>() { "ru", "en" };
+            var cultures = new List<string>() { "ru", "en" };
             if (!cultures.Contains(cultureName))
             {
                 cultureName = "ru";

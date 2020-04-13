@@ -186,6 +186,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Core\IReader.cs" />
     <Compile Include="Core\PeopleJSONReader.cs" />
     <Compile Include="Core\PeopleXmlReader.cs" />
+    <Compile Include="Core\ReaderFactory.cs" />
     <Compile Include="Filters\CultureAttribute .cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -1,48 +1,58 @@
-﻿using NLog;
-using PeopleList.Helpers;
-using PeopleList.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
+
+using NLog;
+
+using PeopleList.Helpers;
+using PeopleList.Models;
 
 namespace PeopleList.Core
 {
     public class PeopleXmlReader : IReader
     {
-        public Logger logger = LogManager.GetCurrentClassLogger();
+        public Logger Logger { get; set; }
+        public PeopleXmlReader()
+        {
+            Logger = LogManager.GetCurrentClassLogger();
+        }
+
         public async Task AddPeople(string path)
         {
-            List<People> peoples = new List<People>();
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
+            var settings = new XmlReaderSettings
+            {
+                IgnoreWhitespace = true
+            };
+
             try
             {
-                using (XmlReader reader = XmlReader.Create(path, settings))
+                using (var reader = XmlReader.Create(path, settings))
                 {
                     reader.ReadToFollowing("People");
                     while (reader.Name == "People")
                     {
-                        People people = new People();
+                        var people = new People();
                         people.ReadXml(reader);
                         people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
                         await HelperConnect.AddPeople(people);
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                logger.Error("Wrong format XML:" + e.Message);
+                Logger.Error("Wrong format XML:" + e.Message);
             }
         }
 
         public void Create(HttpServerUtilityBase Server)
         {
-            List<People> peoples = HelperConnect.GetPeoples();
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            using (XmlWriter writer = XmlWriter.Create(Server.MapPath("~/files/peoples.xml"), settings))
+            var peoples = HelperConnect.GetPeoples();
+            var settings = new XmlWriterSettings
+            {
+                Indent = true
+            };
+            using (var writer = XmlWriter.Create(Server.MapPath("~/files/peoples.xml"), settings))
             {
                 writer.WriteStartElement("Peoples");
                 peoples.ForEach((people) =>

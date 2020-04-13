@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Xml;
+
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Newtonsoft.Json;
-using PeopleList.Models;
 
 namespace PeopleList.Helpers
 {
     public static class HelperWorkWithData
     {
         private static readonly byte[] salt;
+        private static readonly string basePath;
 
         static HelperWorkWithData()
         {
             salt = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["salt"] ?? "");
+            basePath = "files";
         }
 
         public static string GetHash(string password)
@@ -31,22 +29,24 @@ namespace PeopleList.Helpers
                     numBytesRequested: 256 / 8));
         }
 
-        public static string SaveImg(HttpPostedFileBase img, int id, HttpServerUtilityBase Server)
+        public static string Save(this HttpPostedFileBase img, int id, HttpServerUtilityBase Server)
         {
-            var file = id + "." + Path.GetFileName(img.FileName).Split('.')[1];
+            var file = id + Path.GetExtension(img.FileName);
             img.SaveAs(Server.MapPath("~/files/imgs/" + file));
             return file;
         }
-        public static string SaveFile(HttpPostedFileBase file, string name, HttpServerUtilityBase Server)
+
+        public static string Save(this HttpPostedFileBase file, string name, HttpServerUtilityBase Server)
         {
-            var nameFile = name + "." + Path.GetFileName(file.FileName).Split('.')[1];
-            file.SaveAs(Server.MapPath("~/files/download/" + nameFile));
-            return Server.MapPath("~/files/download/" + nameFile);
+            var nameFile = name + Path.GetExtension(file.FileName);
+            var savePath = Server.MapPath("~/" + Path.Combine(basePath, "download", nameFile));
+            file.SaveAs(savePath);
+            return savePath;
         }
-   
+
         public static string TransformDate(string date)
         {
-            date= date.Split(' ')[0];
+            date = date.Split(' ')[0];
             var tmp = date.Split('.');
             if (tmp.Length >= 3)
             {
@@ -55,6 +55,6 @@ namespace PeopleList.Helpers
             else return null;
         }
 
-       
+
     }
 }

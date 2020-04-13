@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+
 using NLog;
+
 using PeopleList.Models;
 
 
@@ -24,9 +26,9 @@ namespace PeopleList.Helpers
                     await db.SaveChangesAsync();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                logger.Info("Wrong person format: " +  e.Message);
+                logger.Info("Wrong person format: " + e.Message);
             }
         }
         public async static Task AddPeople(People people)
@@ -115,10 +117,11 @@ namespace PeopleList.Helpers
                     people.Email = formEdit.Email;
                     people.Birthday = formEdit.Birthday;
                     db.Entry(people).State = EntityState.Modified;
-                   await db.SaveChangesAsync();
+                    await db.SaveChangesAsync();
                 }
             }
         }
+
         public async static Task AddImg(int id, string file)
         {
             using (var db = new PeopleContext())

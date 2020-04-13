@@ -18,8 +18,8 @@ namespace PeopleList.Core
         {
             try
             {
-                string text = "";
-                using (StreamReader sr = new StreamReader(path, Encoding.Default))
+                var text = "";
+                using (var sr = new StreamReader(path, Encoding.Default))
                 {
                     string line;
                     while ((line = sr.ReadLine()) != null)
@@ -27,7 +27,7 @@ namespace PeopleList.Core
                         text += line;
                     }
                 }
-                List<People> peoples = JsonConvert.DeserializeObject<List<People>>(text);
+                var peoples = JsonConvert.DeserializeObject<List<People>>(text);
                 foreach (var people in peoples)
                 {
                     people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
@@ -41,9 +41,9 @@ namespace PeopleList.Core
 
         public void Create(HttpServerUtilityBase Server)
         {
-            List<People> peoples = HelperConnect.GetPeoples();
-            string json = JsonConvert.SerializeObject(peoples, new JsonSerializerSettings());
-            using (StreamWriter sw = new StreamWriter(Server.MapPath("~/files/peoples.json"), false, Encoding.Default))
+            var peoples = HelperConnect.GetPeoples();
+            var json = JsonConvert.SerializeObject(peoples, new JsonSerializerSettings());
+            using (var sw = new StreamWriter(Server.MapPath("~/files/peoples.json"), false, Encoding.Default))
             {
                 sw.WriteLine(json);
             }

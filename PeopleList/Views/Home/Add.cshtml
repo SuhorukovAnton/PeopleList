@@ -39,7 +39,7 @@
     }
 </div>
 <br>
-@using (Ajax.BeginForm("LoadXmlOrJSON", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("Load", null, new AjaxOptions { UpdateTargetId = "main-block" }, new { enctype = "multipart/form-data" }))
 {
     <div class="custom-file">
         <input type="file" class="custom-file-input" name="file" id="file" required>

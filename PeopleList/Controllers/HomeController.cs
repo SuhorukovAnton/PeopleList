@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Xml;
-using NLog;
+
 using PeopleList.Core;
 using PeopleList.Filters;
 using PeopleList.Helpers;
@@ -17,13 +17,16 @@ namespace PeopleList.Controllers
     [Culture]
     public class HomeController : Controller
     {
-        PeopleJSONReader JSONReader = new PeopleJSONReader();
-        PeopleXmlReader XmlReader = new PeopleXmlReader();
-       
+        private ReaderFactory ReaderFactory { get; set; }
+
+        public HomeController()
+        {
+            ReaderFactory = new ReaderFactory();
+        }
 
         [AllowAnonymous]
         public async Task<ActionResult> Index()
-        {         
+        {
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("AuthWithLayout", "Account");
@@ -48,7 +51,7 @@ namespace PeopleList.Controllers
             ViewData["Layout"] = "";
             return View("~/Views/Home/Add.cshtml");
         }
-        
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> Add(FormAdd formAdd)
@@ -62,7 +65,7 @@ namespace PeopleList.Controllers
             ViewData["Layout"] = "";
             return View(formAdd);
         }
-        
+
         [Authorize(Roles = "SuperAdmin")]
         public async Task<ActionResult> Remove(int id)
         {
@@ -89,7 +92,7 @@ namespace PeopleList.Controllers
             }
             else if (ModelState.IsValid)
             {
-               await HelperConnect.EditPeople(formEdit);
+                await HelperConnect.EditPeople(formEdit);
                 ViewData["Message"] = Resources.Resource.SaveIsSuccessfully;
             }
 
@@ -100,7 +103,7 @@ namespace PeopleList.Controllers
         {
             if (img != null)
             {
-                await HelperConnect.AddImg(id, HelperWorkWithData.SaveImg(img, id, Server));
+                await HelperConnect.AddImg(id, img.Save(id, Server));
 
                 ViewData["canEdit"] = true;
                 return View("~/Views/Home/People.cshtml", GetFormEdit(id));
@@ -108,19 +111,14 @@ namespace PeopleList.Controllers
 
             return RedirectToAction("MainForm", "Home");
         }
-        public async Task<ActionResult> LoadXmlOrJSON(HttpPostedFileBase file)
+
+        public async Task<ActionResult> Load(HttpPostedFileBase file)
         {
             if (file != null)
             {
-                string path = HelperWorkWithData.SaveFile(file, "peoples", Server);
-                if (path.EndsWith(".xml"))
-                {
-                   await XmlReader.AddPeople(path);
-                }
-                else
-                {
-                    await JSONReader.AddPeople(path);
-                }
+                var path = file.Save("peoples", Server);
+                var reader = ReaderFactory.GetFactory(Path.GetExtension(file.FileName).Substring(1));
+                await reader.AddPeople(path);
             }
 
             return RedirectToAction("MainForm", "Home");
@@ -158,21 +156,25 @@ namespace PeopleList.Controllers
         [AllowAnonymous]
         public ActionResult ChangeCulture(string lang)
         {
-            string returnUrl = Request.UrlReferrer.AbsolutePath;
-            List<string> cultures = new List<string>() { "ru", "en" };
+            var returnUrl = Request.UrlReferrer.AbsolutePath;
+            var cultures = new List<string>() { "ru", "en" };
             if (!cultures.Contains(lang))
             {
                 lang = "ru";
             }
-            HttpCookie cookie = Request.Cookies["lang"];
+            var cookie = Request.Cookies["lang"];
             if (cookie != null)
-                cookie.Value = lang;  
+            {
+                cookie.Value = lang;
+            }
             else
             {
-                cookie = new HttpCookie("lang");
-                cookie.HttpOnly = false;
-                cookie.Value = lang;
-                cookie.Expires = DateTime.Now.AddYears(1);
+                cookie = new HttpCookie("lang")
+                {
+                    HttpOnly = false,
+                    Value = lang,
+                    Expires = DateTime.Now.AddYears(1)
+                };
             }
             Response.Cookies.Add(cookie);
             return Redirect(returnUrl);
@@ -183,15 +185,12 @@ namespace PeopleList.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
-        public void UnloadPeoplesXML()
+
+        public void UnloadPeoples(string format)
         {
-            XmlReader.Create(Server);
-            XmlReader.Unload(Response, Server);
-        }
-        public void UnloadPeoplesJSON()
-        {
-            JSONReader.Create(Server);
-            JSONReader.Unload(Response, Server);
+            var reader = ReaderFactory.GetFactory(format);
+            reader.Create(Server);
+            reader.Unload(Response, Server);
         }
     }
 }
