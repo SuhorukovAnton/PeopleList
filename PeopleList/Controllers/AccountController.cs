@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Web.Mvc;
 using System.Web.Security;
 using PeopleList.Helpers;
 using PeopleList.Models;
@@ -11,6 +13,7 @@ namespace PeopleList.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Auth(FormAuth form)
         {
+
             if (ModelState.IsValid)
             {
                 var task = HelperConnect.FindUser(form.Email, form.Password);
@@ -25,6 +28,8 @@ namespace PeopleList.Controllers
                     ModelState.AddModelError("", Resources.Resource.UserIsNotFound);
                 }
             }
+            ViewBag.langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
+            ViewBag.langsFullName = new List<string>(ConfigurationManager.AppSettings["langsFullName"].Split(','));
             ViewData["Auth"] = true;
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
             return View(form);
@@ -46,6 +51,8 @@ namespace PeopleList.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
+            ViewBag.langsFullName = new List<string>(ConfigurationManager.AppSettings["langsFullName"].Split(','));
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
             ViewData["Auth"] = true;
             return View("Auth");

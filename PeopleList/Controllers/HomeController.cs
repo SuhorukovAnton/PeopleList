@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web;
@@ -27,6 +28,8 @@ namespace PeopleList.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
+            ViewBag.langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
+            ViewBag.langsFullName = new List<string>(ConfigurationManager.AppSettings["langsFullName"].Split(','));
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("AuthWithLayout", "Account");
@@ -83,8 +86,8 @@ namespace PeopleList.Controllers
         {
             ViewData["canEdit"] = id == int.Parse(User.Identity.Name) || User.IsInRole("SuperAdmin");
             ViewData["Img"] = HelperConnect.GetPeople(id).Result.Img;
-
-            var isFind = HelperConnect.FindEmail(formEdit.Email).Result && HelperConnect.GetPeople(id).Result.Email != formEdit.Email;
+            var peopleTmp = await HelperConnect.GetPeople(id);
+            var isFind = await HelperConnect.FindEmail(formEdit.Email) && peopleTmp.Email != formEdit.Email;
 
             if (isFind)
             {
@@ -157,7 +160,7 @@ namespace PeopleList.Controllers
         public ActionResult ChangeCulture(string lang)
         {
             var returnUrl = Request.UrlReferrer.AbsolutePath;
-            var cultures = new List<string>() { "ru", "en" };
+            var cultures = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
             if (!cultures.Contains(lang))
             {
                 lang = "ru";

@@ -17,23 +17,17 @@
             {
                 <br>
                 <select name="lang" class="col-12 form-control" id="exampleFormControlSelect1">
-                    @if (Resources.Resource.Lang == "Русский")
+                    @for (var i = 0; i < ViewBag.langs.Count; i++)
                     {
-                        <option selected value="ru">Русский</option>
+                        if (Resources.Resource.Lang == ViewBag.langsFullName[i])
+                        {
+                            <option selected value= "@ViewBag.langs[i]">@ViewBag.langsFullName[i]</option>
+                        }
+                        else
+                        {
+                            <option value="@ViewBag.langs[i]">@ViewBag.langsFullName[i]</option>
+                        }
                     }
-                    else
-                    {
-                        <option value="ru">Русский</option>
-                    }
-                    @if (Resources.Resource.Lang == "English")
-                    {
-                        <option selected value="en">English</option>
-                    }
-                    else
-                    {
-                        <option value="en">English</option>
-                    }
-
                 </select>
                 <br>
                 <input class="col-12 btn btn-primary" type="submit" name="submit" value="@Resources.Resource.Change">

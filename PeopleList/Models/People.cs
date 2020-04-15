@@ -9,14 +9,13 @@ namespace PeopleList.Models
     {
         [JsonIgnore]
         public int id { set; get; }
-        [Required(ErrorMessageResourceType = typeof(Resources.Resource), ErrorMessageResourceName = "NameRequired")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resource), ErrorMessage = "NameRequired")]
         public string Name { set; get; }
         [Required(ErrorMessageResourceType = typeof(Resources.Resource), ErrorMessageResourceName = "SurnameRequired")]
         public string Surname { set; get; }
         [Required(ErrorMessageResourceType = typeof(Resources.Resource), ErrorMessageResourceName = "EmailRequired")]
         [DataType(DataType.EmailAddress)]
         [ValidEmail(ErrorMessageResourceType = typeof(Resources.Resource), ErrorMessageResourceName = "EmailValid")]
-        [NoFindEmail(ErrorMessageResourceType = typeof(Resources.Resource), ErrorMessageResourceName = "EmailIsBusy")]
         public string Email { set; get; }
         [Required(ErrorMessageResourceType = typeof(Resources.Resource), ErrorMessageResourceName = "BirthdayRequired")]
         [DataType(DataType.Date)]

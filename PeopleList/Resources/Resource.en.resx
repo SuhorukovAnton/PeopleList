@@ -159,6 +159,9 @@
   <data name="EmailValid" xml:space="preserve">
     <value>Invalid email format</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
   <data name="Lang" xml:space="preserve">
     <value>English</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Russian</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>

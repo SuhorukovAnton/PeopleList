@@ -34,8 +34,11 @@ namespace PeopleList.Core
                     {
                         var people = new People();
                         people.ReadXml(reader);
-                        people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
-                        await HelperConnect.AddPeople(people);
+                        if (!await HelperConnect.FindEmail(people.Email))
+                        {
+                            people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
+                            await HelperConnect.AddPeople(people);
+                        }
                     }
                 }
             }

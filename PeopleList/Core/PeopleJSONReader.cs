@@ -30,8 +30,10 @@ namespace PeopleList.Core
                 var peoples = JsonConvert.DeserializeObject<List<People>>(text);
                 foreach (var people in peoples)
                 {
-                    people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
-                    await HelperConnect.AddPeople(people);
+                    if (!await HelperConnect.FindEmail(people.Email)) {
+                        people.Birthday = HelperWorkWithData.TransformDate(people.Birthday);
+                        await HelperConnect.AddPeople(people);
+                    }
                 }
             }catch(Exception e)
             {

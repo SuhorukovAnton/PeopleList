@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Threading;
 using System.Web.Mvc;
@@ -21,7 +22,7 @@ namespace PeopleList.Filters
             else
                 cultureName = "ru";
 
-            var cultures = new List<string>() { "ru", "en" };
+            var cultures = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
             if (!cultures.Contains(cultureName))
             {
                 cultureName = "ru";

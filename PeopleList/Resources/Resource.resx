@@ -159,6 +159,9 @@
   <data name="EmailValid" xml:space="preserve">
     <value>Неверный формат почты</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>Английский</value>
+  </data>
   <data name="Lang" xml:space="preserve">
     <value>Русский</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Удалить</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Русский</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>

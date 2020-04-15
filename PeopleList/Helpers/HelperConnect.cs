@@ -104,6 +104,22 @@ namespace PeopleList.Helpers
                 return null;
             }
         }
+        public async static Task<People> GetPeople(string email)
+        {
+            using (var db = new PeopleContext())
+            {
+                var people = await db.People.FirstOrDefaultAsync(p => p.Email == email);
+                if (people != null)
+                {
+                    people.Birthday = people.Birthday.Split(' ')[0];
+                    var tmp = people.Birthday.Split('.');
+                    if (tmp.Length >= 3)
+                        people.Birthday = tmp[2] + "-" + tmp[1] + "-" + tmp[0];
+                    return people;
+                }
+                return null;
+            }
+        }
 
         public async static Task EditPeople(FormEdit formEdit)
         {
@@ -116,6 +132,7 @@ namespace PeopleList.Helpers
                     people.Surname = formEdit.Surname;
                     people.Email = formEdit.Email;
                     people.Birthday = formEdit.Birthday;
+                    
                     db.Entry(people).State = EntityState.Modified;
                     await db.SaveChangesAsync();
                 }
