@@ -54,7 +54,10 @@ namespace PeopleList.Helpers
             }
             else return null;
         }
-
+        public static string FirstUpper(string str)
+        {
+            return str.Substring(0, 1).ToUpper() + (str.Length > 1 ? str.Substring(1) : "");
+        }
 
     }
 }

@@ -20,7 +20,7 @@
                 <select name="lang" class="col-12 form-control" id="exampleFormControlSelect1">
                     @for (var i = 0; i < ViewBag.langs.Count; i++)
                     {
-                        if (Resources.Resource.Lang == ViewBag.langsFullName[i])
+                        if (Resources.Resource.Lang.ToLower() == ViewBag.langsFullName[i].ToLower())
                         {
                             <option selected value="@ViewBag.langs[i]">@ViewBag.langsFullName[i]</option>
                         }

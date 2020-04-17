@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 using PeopleList.Helpers;
@@ -28,8 +29,7 @@ namespace PeopleList.Controllers
                     ModelState.AddModelError("", Resources.Resource.UserIsNotFound);
                 }
             }
-            ViewBag.langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
-            ViewBag.langsFullName = new List<string>(ConfigurationManager.AppSettings["langsFullName"].Split(','));
+            WriteLangsToViewBag();
             ViewData["Auth"] = true;
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
             return View(form);
@@ -51,11 +51,22 @@ namespace PeopleList.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
-            ViewBag.langsFullName = new List<string>(ConfigurationManager.AppSettings["langsFullName"].Split(','));
+            WriteLangsToViewBag();
             ViewData["Layout"] = "~/Views/Shared/_Layout.cshtml";
             ViewData["Auth"] = true;
             return View("Auth");
+        }
+
+        public void WriteLangsToViewBag()
+        {
+            List<string> langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
+            List<string> nameLangs = new List<string>();
+            langs.ForEach(elem =>
+            {
+                nameLangs.Add(HelperWorkWithData.FirstUpper(new CultureInfo(elem).NativeName));
+            });
+            ViewBag.langs = langs;
+            ViewBag.langsFullName = nameLangs;
         }
     }
 }

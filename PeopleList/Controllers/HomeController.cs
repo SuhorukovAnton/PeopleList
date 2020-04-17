@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web;
@@ -28,8 +29,8 @@ namespace PeopleList.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
-            ViewBag.langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
-            ViewBag.langsFullName = new List<string>(ConfigurationManager.AppSettings["langsFullName"].Split(','));
+            WriteLangsToViewBag();
+
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("AuthWithLayout", "Account");
@@ -195,5 +196,18 @@ namespace PeopleList.Controllers
             reader.Create(Server);
             reader.Unload(Response, Server);
         }
+
+        public void WriteLangsToViewBag()
+        {
+            List<string> langs = new List<string>(ConfigurationManager.AppSettings["langs"].Split(','));
+            List<string> nameLangs = new List<string>();
+            langs.ForEach(elem =>
+            {
+                nameLangs.Add(HelperWorkWithData.FirstUpper(new CultureInfo(elem).NativeName));
+            });
+            ViewBag.langs = langs;
+            ViewBag.langsFullName = nameLangs;
+        }
+
     }
 }
